@@ -1,0 +1,7 @@
+.DS_Store
+node_modules/
+tests/__pycache__/
+*.pyc
+assets/qa-*.png
+artifacts/
+main-7MZ5kTIG.js

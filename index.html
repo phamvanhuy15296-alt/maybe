@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#dddddd" />
+  <title>Maybe · Ask Codex, roll the dice</title>
+  <meta name="description" content="Maybe turns a question into choices, then lets one to five physical dice decide." />
+  <link rel="canonical" href="https://webmcp.qinqinghua.tech/maybe/" />
+  <link rel="stylesheet" href="./css/base.css" />
+  <script>document.documentElement.className='js';</script>
+</head>
+<body>
+  <header class="product-brand" aria-label="Maybe">
+    <h1>Maybe</h1>
+    <p data-i18n="tagline">Luck needs a plan, and Dice brings snacks.</p>
+  </header>
+
+  <div class="language-switcher">
+    <button id="language-button" type="button" aria-haspopup="true" aria-expanded="false" data-i18n-aria-label="language.label">
+      <span id="language-button-code">EN</span>
+      <span aria-hidden="true">⌄</span>
+    </button>
+    <div id="language-menu" class="language-menu is-hidden" role="menu" data-i18n-aria-label="language.choose"></div>
+  </div>
+
+  <main>
+    <div class="content">
+      <canvas id="canvas"></canvas>
+
+      <div class="ui-controls" id="game-ui" aria-live="polite">
+        <button id="global-home-btn" class="global-home is-hidden" type="button" data-i18n="navigation.home">Home</button>
+        <div class="score"><span data-i18n="score">Score</span>: <span id="score-result"></span></div>
+
+        <section class="game-step" data-step="home">
+          <div class="dice-count-control" aria-labelledby="dice-count-label">
+            <span id="dice-count-label" class="dice-count-label" data-i18n="dice.label">Dice</span>
+            <div class="dice-count-options" role="group" aria-label="Number of dice, from one to five" data-i18n-aria-label="dice.aria">
+              <button type="button" data-dice-count="1" aria-pressed="false">1</button>
+              <button type="button" data-dice-count="2" class="is-selected" aria-pressed="true">2</button>
+              <button type="button" data-dice-count="3" aria-pressed="false">3</button>
+              <button type="button" data-dice-count="4" aria-pressed="false">4</button>
+              <button type="button" data-dice-count="5" aria-pressed="false">5</button>
+            </div>
+          </div>
+          <div class="home-actions">
+            <button id="roll-btn" class="primary-action" type="button" data-i18n="home.throw">Throw the dice</button>
+            <button id="ask-btn" class="primary-action" type="button" data-i18n="home.ask">Ask a question</button>
+          </div>
+          <a id="open-codex-btn" class="codex-open-link" href="https://chatgpt.com/codex/deeplink?url=https%3A%2F%2Fwebmcp.qinqinghua.tech%2Fmaybe">
+            <span class="codex-open-mark" aria-hidden="true">✦</span>
+            <span>
+              <strong data-i18n="codex.open">Open in Codex</strong>
+            </span>
+          </a>
+          <button id="library-btn" class="shelf-link" type="button">
+            <span aria-hidden="true">✦</span>
+            <span class="shelf-copy">
+              <strong data-i18n="shelf.open">Open the question shelf</strong>
+            </span>
+          </button>
+        </section>
+
+        <ul class="help-list">
+          <li data-i18n="home.doubleTap">Double tap to throw the dice</li>
+          <li data-i18n="home.zoomHint">Pan &amp; zoom if the dice rolled too far</li>
+        </ul>
+
+        <section class="game-step is-hidden" data-step="library">
+          <div class="step-count" data-i18n="shelf.eyebrow">Question shelf · saved locally</div>
+          <h2 data-i18n="shelf.title">Good questions deserve better than a blank box.</h2>
+          <p class="step-note library-intro" data-i18n="shelf.intro">Pick a card, remix it, or ask Codex to stock this shelf with decisions that sound like you.</p>
+
+          <div class="library-tools">
+            <input id="library-search" type="search" maxlength="80" placeholder="Search questions or answers…" aria-label="Search question shelf" data-i18n-placeholder="shelf.searchPlaceholder" data-i18n-aria-label="shelf.searchAria" />
+            <div id="library-categories" class="category-chips" aria-label="Question categories" data-i18n-aria-label="shelf.categoriesAria"></div>
+          </div>
+
+          <aside class="codex-shelf-callout">
+            <span class="codex-spark" aria-hidden="true">✦</span>
+            <div>
+              <strong data-i18n="shelf.personalizeTitle">Make this shelf unmistakably yours.</strong>
+              <p data-i18n="shelf.personalizeBody">Ask Codex for recurring questions and ready-to-roll answers—from standup rituals to midnight snacks.</p>
+            </div>
+            <button id="copy-library-prompt-btn" class="secondary-action compact-action" type="button" data-i18n="shelf.copyPrompt">Copy a Codex prompt</button>
+          </aside>
+
+          <div class="library-meta">
+            <span id="library-count"></span>
+            <div class="library-file-actions">
+            <button id="import-library-btn" class="quiet-link" type="button" data-i18n="shelf.import">Import JSON</button>
+            <button id="export-library-btn" class="quiet-link" type="button" data-i18n="shelf.export">Export Mine</button>
+              <input id="library-file-input" type="file" accept="application/json,.json" hidden />
+            </div>
+          </div>
+          <p id="library-status" class="library-status" role="status"></p>
+          <div id="question-card-list" class="question-card-list"></div>
+          <div class="step-actions library-footer">
+            <button class="quiet-link" type="button" data-back="home" data-i18n="shelf.back">Back</button>
+          </div>
+        </section>
+
+        <section class="game-step is-hidden" data-step="question">
+          <div class="step-count">1 / 3</div>
+          <h2 data-i18n="question.title">What do you want the dice to decide?</h2>
+          <textarea id="question-input" rows="3" maxlength="240" placeholder="e.g. What should I eat for lunch today?" data-i18n-placeholder="question.placeholder"></textarea>
+          <div class="step-actions">
+            <button id="question-next-btn" class="primary-action" type="button" data-i18n="question.askCodex">Ask Codex</button>
+            <button class="secondary-action" type="button" data-back="home" data-i18n="common.back">Back</button>
+          </div>
+        </section>
+
+        <section class="game-step is-hidden" data-step="waiting">
+          <div class="step-count">Codex</div>
+          <div class="thinking-line"><span class="thinking-dot"></span><strong data-i18n="waiting.thinking">Turning your question into choices…</strong></div>
+          <p id="pending-question" class="quoted-question"></p>
+          <p id="waiting-status" class="step-note" role="status"></p>
+          <div class="step-actions">
+            <button id="own-options-btn" class="secondary-action" type="button" data-i18n="waiting.own">I'll add my own</button>
+            <button class="quiet-link" type="button" data-back="question" data-i18n="waiting.edit">Edit question</button>
+          </div>
+        </section>
+
+        <section class="game-step is-hidden" data-step="followup">
+          <div class="step-count" data-i18n="followup.eyebrow">Codex asks</div>
+          <h2 id="followup-question"></h2>
+          <textarea id="followup-input" rows="2" maxlength="180" placeholder="Type your answer…" data-i18n-placeholder="followup.placeholder"></textarea>
+          <div class="step-actions">
+            <button id="followup-next-btn" class="primary-action" type="button" data-i18n="followup.continue">Continue</button>
+            <button id="followup-skip-btn" class="quiet-link" type="button" data-i18n="followup.skip">Skip</button>
+          </div>
+        </section>
+
+        <section class="game-step is-hidden" data-step="options">
+          <div class="step-count" data-i18n="options.eyebrow">2 / 3 · Codex</div>
+          <p id="assistant-text" class="assistant-text" hidden></p>
+          <div id="option-list" class="option-list"></div>
+            <button id="add-option-btn" class="quiet-link add-option" type="button" data-i18n="options.add">+ Add my own choice</button>
+          <div class="step-actions">
+            <button id="options-next-btn" class="primary-action" type="button" data-i18n="options.use">Use these choices</button>
+            <button class="secondary-action" type="button" data-save-current data-i18n="shelf.saveCurrent">Save to Question Shelf</button>
+            <button class="quiet-link" type="button" data-back="question" data-i18n="options.restart">Start over</button>
+          </div>
+          <p class="decision-save-status" data-save-status role="status"></p>
+        </section>
+
+        <section class="game-step is-hidden" data-step="answer">
+          <div class="step-count" data-i18n="answer.eyebrow">Maybe answers</div>
+          <h2 id="answer-question" class="answer-question"></h2>
+          <p id="answer-text" class="answer-text"></p>
+          <div class="step-actions">
+            <button id="answer-another-btn" class="primary-action" type="button" data-i18n="result.another">Ask another question</button>
+            <button class="secondary-action" type="button" data-back="home" data-i18n="common.back">Back</button>
+          </div>
+        </section>
+
+        <section class="game-step is-hidden" data-step="ready">
+          <div class="step-count">3 / 3</div>
+          <h2 data-i18n="ready.title">Ready to let the dice decide?</h2>
+          <p id="ready-question" class="quoted-question"></p>
+          <div id="mapping-summary" class="mapping-summary"></div>
+            <button id="customize-odds-btn" class="quiet-link" type="button" data-i18n="ready.customize">Customize which face means what</button>
+          <div class="step-actions">
+            <button id="decision-roll-btn" class="primary-action" type="button" data-i18n="ready.throw">Throw the dice</button>
+            <button class="secondary-action" type="button" data-save-current data-i18n="shelf.saveCurrent">Save to Question Shelf</button>
+            <button class="quiet-link" type="button" data-back="options" data-i18n="ready.edit">Edit choices</button>
+          </div>
+          <p class="decision-save-status" data-save-status role="status"></p>
+        </section>
+
+        <section class="game-step is-hidden" data-step="odds">
+          <div class="step-count" data-i18n="odds.eyebrow">Face mapping</div>
+          <h2 data-i18n="odds.title">Which answer should each face mean?</h2>
+          <div id="face-mapping" class="face-mapping"></div>
+          <div class="step-actions">
+            <button id="save-odds-btn" class="primary-action" type="button" data-i18n="odds.done">Done</button>
+            <button id="balance-odds-btn" class="quiet-link" type="button" data-i18n="odds.reset">Reset to balanced</button>
+          </div>
+        </section>
+
+        <section class="game-step is-hidden" data-step="rolling">
+          <div class="step-count" data-i18n="rolling.eyebrow">Rolling…</div>
+          <h2 data-i18n="rolling.title">Let it land.</h2>
+        </section>
+
+        <section class="game-step is-hidden" data-step="result">
+          <div class="step-count" data-i18n="result.eyebrow">The dice chose</div>
+          <h2 id="result-title" class="result-title"></h2>
+          <p id="result-detail" class="result-detail"></p>
+          <div class="step-actions">
+            <button id="roll-again-btn" class="primary-action" type="button" data-i18n="result.again">Throw again</button>
+            <button id="new-question-btn" class="secondary-action" type="button" data-i18n="result.another">Ask another question</button>
+            <button id="history-btn" class="quiet-link" type="button" data-i18n="result.history">History</button>
+          </div>
+        </section>
+
+        <section class="game-step is-hidden" data-step="history">
+          <div class="step-count" data-i18n="history.eyebrow">History</div>
+          <h2 data-i18n="history.title">Recent rolls</h2>
+          <div id="history-list" class="history-list"></div>
+          <div class="step-actions">
+            <button class="quiet-link" type="button" data-back="home" data-i18n="common.back">Back</button>
+            <button id="clear-history-btn" class="quiet-link" type="button" data-i18n="history.clear">Clear</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <template id="option-template">
+    <div class="option-row">
+      <span class="option-letter"></span>
+      <input class="option-input" type="text" maxlength="80" />
+      <button class="remove-option" type="button" aria-label="Remove choice" data-i18n-aria-label="shelf.removeAria">×</button>
+    </div>
+  </template>
+
+  <template id="question-card-template">
+    <article class="question-card">
+      <div class="question-card-topline">
+        <span class="question-card-category"></span>
+        <button class="remove-card" type="button" aria-label="Remove saved question" data-i18n-aria-label="shelf.removeAria">×</button>
+      </div>
+      <h3 class="question-card-title"></h3>
+      <p class="question-card-preview"></p>
+      <button class="use-card primary-action compact-action" type="button" data-i18n="shelf.useCard">Use this card</button>
+    </article>
+  </template>
+
+  <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.138.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.138.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <!-- Dice renderer/physics: derived from the credited upstream demo and kept separate from product logic. -->
+  <script type="module" src="./js/main.js?v=20260902-ui3"></script>
+  <!-- UI/WebMCP layer: never imports Three.js or cannon-es. -->
+  <script type="module" src="./js/decision-ui.js"></script>
+</body>
+</html>
