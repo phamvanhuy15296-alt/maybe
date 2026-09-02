@@ -22,6 +22,8 @@ const api = {
 };
 const result = await registerWebMCP(api);
 assert.equal(result.supported, true);
+assert.equal(result.complete, true);
+assert.equal(result.expected, 9);
 assert.equal(registered.length, 9);
 assert.deepEqual(registered.map(t => t.name), [
   'maybe_respond_in_page',
@@ -68,4 +70,27 @@ await assert.rejects(
   }),
   /normal Codex safety workflow/,
 );
+
+const duplicateCheck = await registerWebMCP(api);
+assert.equal(duplicateCheck.complete, true);
+assert.equal(registered.length, 9, 'retrying on the same modelContext must not register duplicates');
+
+const retried = [];
+let failOnce = true;
+document.modelContext = {
+  async registerTool(tool) {
+    if (tool.name === 'maybe_roll' && failOnce) {
+      failOnce = false;
+      throw new Error('modelContext is still warming up');
+    }
+    retried.push(tool);
+  },
+};
+const partial = await registerWebMCP(api);
+assert.equal(partial.complete, false);
+assert.equal(partial.registered.length, 8);
+assert.deepEqual(partial.failed.map(({ name }) => name), ['maybe_roll']);
+const recovered = await registerWebMCP(api);
+assert.equal(recovered.complete, true);
+assert.equal(retried.length, 9, 'a retry must register only the previously missing tool');
 console.log('PASS WebMCP registration and callback wiring');

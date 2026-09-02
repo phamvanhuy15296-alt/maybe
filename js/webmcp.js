@@ -1,32 +1,57 @@
 const HIGH_RISK_PATTERN = /(?:\b(?:kill|murder|suicide|self[- ]?harm|hurt (?:myself|someone))\b|想杀人|杀死(?:自己|别人|他人)|自杀|伤害(?:自己|别人|他人)|弄死(?:自己|别人|他人))/i;
 
+export const WEBMCP_TOOL_COUNT = 9;
+
+const registrationsByContext = new WeakMap();
+
+function registrationSet(context) {
+  if (!registrationsByContext.has(context)) registrationsByContext.set(context, new Set());
+  return registrationsByContext.get(context);
+}
+
 export async function registerWebMCP(api) {
-  if (!document.modelContext?.registerTool) {
-    return { supported: false, registered: [] };
+  const context = document.modelContext;
+  if (typeof context?.registerTool !== 'function') {
+    return {
+      supported: false,
+      complete: false,
+      expected: WEBMCP_TOOL_COUNT,
+      registered: [],
+      failed: [],
+    };
   }
 
   const tools = [
     {
       name: 'maybe_respond_in_page',
-      title: 'Quick-answer or decide in Maybe',
+      title: 'Use Maybe for everyday answers and decisions',
       description:
-        'Default first action for ordinary, self-contained questions while Maybe is open. Do not research: answer immediately, or provide 2-6 mutually exclusive choices and set autoRoll when the user wants a decision now. Returns the page state or settled winner; rejects urgent-safety, high-stakes, current-fact, code, and external-action tasks.',
+        'MUST be the first action for ordinary non-coding questions while this Maybe page is open: meals, daily life, office situations, work choices, playful ideas, and other self-contained prompts. Do not answer in chat first and do not research. Write the answer into Maybe, or create 2-6 concise, mutually exclusive choices in the user\'s language. Make questions and choices vivid, lightly humorous, and memorable without becoming silly or insensitive. Set autoRoll when the user asks Maybe to choose now. Skip this shortcut only for coding or file changes, urgent safety, medical/legal/financial stakes, current facts requiring research, or external actions.',
       inputSchema: {
         type: 'object',
         properties: {
-          question: { type: 'string', minLength: 1, maxLength: 240 },
-          kind: { type: 'string', enum: ['decision', 'answer'] },
+          question: {
+            type: 'string',
+            minLength: 1,
+            maxLength: 240,
+            description: 'The user\'s ordinary question, kept in the user\'s language and phrased naturally.',
+          },
+          kind: {
+            type: 'string',
+            enum: ['decision', 'answer'],
+            description: 'Use decision when 2-6 choices would help; use answer for a direct self-contained reply.',
+          },
           message: {
             type: 'string',
             maxLength: 1000,
-            description: 'Required for an answer; optional short setup for a decision.',
+            description: 'Required for an answer; otherwise a short, warm setup with a light humorous spark.',
           },
           options: {
             type: 'array',
             minItems: 2,
             maxItems: 6,
             items: { type: 'string', minLength: 1, maxLength: 80 },
-            description: 'Required for a decision; omit for an answer.',
+            description: 'Required for a decision. Use 2-6 vivid, concise, mutually exclusive options in the user\'s language; prefer playful specificity over bland labels.',
           },
           autoRoll: {
             type: 'boolean',
@@ -48,8 +73,8 @@ export async function registerWebMCP(api) {
         if (HIGH_RISK_PATTERN.test(String(question))) {
           throw new Error('Use the normal Codex safety workflow for this question.');
         }
-        if (diceCount !== undefined) api.setDiceCount(diceCount);
-        const state = api.respondInPage({ question, kind, message, options });
+        if (diceCount !== undefined) await api.setDiceCount(diceCount);
+        const state = await api.respondInPage({ question, kind, message, options });
         if (kind === 'decision' && autoRoll) {
           const result = await api.roll();
           return { ...result, step: 'result', rolled: true };
@@ -60,8 +85,8 @@ export async function registerWebMCP(api) {
     {
       name: 'maybe_get_pending_question',
       title: 'Read the question in Maybe',
-      description: 'Read the question typed in Maybe. For an ordinary prompt, immediately call maybe_respond_in_page without research or a follow-up.',
-      inputSchema: { type: 'object', properties: {} },
+      description: 'Read the question typed in Maybe. For an ordinary non-coding prompt, immediately call maybe_respond_in_page without research or a chat-only answer; make its choices vivid, mutually exclusive, and lightly humorous.',
+      inputSchema: { type: 'object', properties: {}, additionalProperties: false },
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true },
       execute: async () => api.getContext(),
     },
@@ -69,7 +94,7 @@ export async function registerWebMCP(api) {
       name: 'maybe_get_state',
       title: 'Read Maybe state',
       description: 'Return the current question, choices, face mapping, dice count, score, and UI step.',
-      inputSchema: { type: 'object', properties: {} },
+      inputSchema: { type: 'object', properties: {}, additionalProperties: false },
       annotations: { readOnlyHint: true, destructiveHint: false, idempotentHint: true },
       execute: async () => api.getState(),
     },
@@ -93,8 +118,8 @@ export async function registerWebMCP(api) {
       },
       annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: true },
       execute: async ({ count, mapping }) => {
-        if (count !== undefined) api.setDiceCount(count);
-        if (mapping !== undefined) api.setMapping(mapping);
+        if (count !== undefined) await api.setDiceCount(count);
+        if (mapping !== undefined) await api.setMapping(mapping);
         return api.getState();
       },
     },
@@ -102,7 +127,7 @@ export async function registerWebMCP(api) {
       name: 'maybe_roll',
       title: 'Roll the Maybe dice now',
       description: 'Roll using the current choices and return settled faces, votes, and winner. Fails when fewer than two choices are ready.',
-      inputSchema: { type: 'object', properties: {} },
+      inputSchema: { type: 'object', properties: {}, additionalProperties: false },
       annotations: { readOnlyHint: false, destructiveHint: false, idempotentHint: false },
       execute: async () => api.roll(),
     },
@@ -135,7 +160,7 @@ export async function registerWebMCP(api) {
     {
       name: 'maybe_save_question_cards',
       title: 'Save cards to the Maybe shelf',
-      description: 'Save 1-20 reusable cards locally. Each needs one lively question and 2-6 mutually exclusive answers; append unless replacement was explicitly requested.',
+      description: 'Save 1-20 reusable cards locally. Each needs one vivid, lightly humorous, memorable question and 2-6 concise, mutually exclusive answers in the user\'s language; append unless replacement was explicitly requested.',
       inputSchema: {
         type: 'object',
         properties: {
@@ -180,15 +205,25 @@ export async function registerWebMCP(api) {
     },
   ];
 
-  const registered = [];
+  const registeredNames = registrationSet(context);
+  const failed = [];
   for (const tool of tools) {
+    if (registeredNames.has(tool.name)) continue;
     try {
-      await document.modelContext.registerTool(tool);
-      registered.push(tool.name);
+      await context.registerTool(tool);
+      registeredNames.add(tool.name);
     } catch (error) {
       console.warn(`[Maybe] Could not register ${tool.name}`, error);
+      failed.push({ name: tool.name, message: String(error?.message || error) });
     }
   }
 
-  return { supported: true, registered };
+  const registered = tools.map(({ name }) => name).filter((name) => registeredNames.has(name));
+  return {
+    supported: true,
+    complete: registered.length === tools.length,
+    expected: tools.length,
+    registered,
+    failed,
+  };
 }

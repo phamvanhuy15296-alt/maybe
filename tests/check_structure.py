@@ -24,6 +24,7 @@ assert '<canvas id="canvas"></canvas>' in html
 assert '<span id="score-result"></span>' in html
 assert 'id="roll-btn"' in html
 assert './js/main.js' in html and './js/decision-ui.js' in html
+assert html.index('./js/decision-ui.js') < html.index('./js/main.js'), 'WebMCP/UI must register before remote dice dependencies load'
 assert 'data-step="question"' in html
 assert 'data-step="waiting"' in html
 assert 'data-step="followup"' in html

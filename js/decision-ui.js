@@ -15,7 +15,7 @@ import {
   clearHistory,
   exportMemory,
 } from './storage.js';
-import { registerWebMCP } from './webmcp.js';
+import { registerWebMCP } from './webmcp.js?v=20260902-webmcp2';
 import {
   QUESTION_CATEGORIES,
   listQuestionCards,
@@ -33,7 +33,7 @@ import {
   tp,
   setLocale,
   applyTranslations,
-} from './i18n.js';
+} from './i18n.js?v=20260902-webmcp2';
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -248,10 +248,23 @@ function getDiceCount() {
   return Number.isInteger(count) ? Math.max(1, Math.min(5, count)) : 2;
 }
 
-function setDiceCount(count) {
-  if (!window.MaybeDice?.setDiceCount) {
-    throw new Error('The dice physics engine is not ready yet.');
-  }
+function waitForDiceEngine(timeout = 15000) {
+  if (window.MaybeDice?.setDiceCount) return Promise.resolve(window.MaybeDice);
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      window.removeEventListener('maybe:dice-engine-ready', handleReady);
+      reject(new Error('The dice physics engine did not become ready in time.'));
+    }, timeout);
+    const handleReady = () => {
+      clearTimeout(timer);
+      resolve(window.MaybeDice);
+    };
+    window.addEventListener('maybe:dice-engine-ready', handleReady, { once: true });
+  });
+}
+
+async function setDiceCount(count) {
+  await waitForDiceEngine();
   const result = window.MaybeDice.setDiceCount(count);
   return {...getState(), diceCount: result.diceCount};
 }
@@ -622,11 +635,13 @@ function finishRoll(faces) {
   }
 }
 
-function beginRoll() {
+async function beginRoll() {
   if (rolling && pendingRollPromise) return pendingRollPromise;
   if (sanitizeOptions(state.options).length < MIN_OPTIONS) {
     return Promise.reject(new Error('Add at least two choices before rolling.'));
   }
+
+  await waitForDiceEngine();
 
   rolling = true;
   pendingDiceCount = getDiceCount();
@@ -646,8 +661,6 @@ function beginRoll() {
     }, 18000);
   });
 
-  // This remains the only bridge to the renderer: click the visible roll button.
-  // main.js owns all Three.js/cannon-es behavior, including the active count.
   els.roll.click();
   return pendingRollPromise;
 }
@@ -739,7 +752,7 @@ function getContext() {
     clarifications: [...state.clarifications],
     locale: getLocale(),
     preferredTool: 'maybe_respond_in_page',
-    instruction: 'Call maybe_respond_in_page next. For ordinary questions, answer or create 2-6 choices immediately without research; set autoRoll when the user wants a decision now.',
+    instruction: 'Call maybe_respond_in_page next. For ordinary non-coding questions, do not answer in chat first and do not research: write the answer into Maybe or create 2-6 vivid, mutually exclusive, lightly humorous choices in the user\'s language. Set autoRoll when the user wants a decision now.',
   };
 }
 
@@ -1059,11 +1072,55 @@ const siteApi = {
 };
 window.Maybe = siteApi;
 
-async function initWebMCP() {
-  const result = await registerWebMCP(siteApi);
-  webmcpSupported = result.supported;
-  document.documentElement.dataset.webmcp = result.supported ? 'supported' : 'unavailable';
-  return result;
+const WEBMCP_RETRY_DELAYS = [0, 50, 150, 400, 900, 1800, 3500, 7000, 12000];
+let webmcpInitPromise = null;
+
+function publishWebMCPStatus(result, attempt, terminal = false) {
+  webmcpSupported = Boolean(result.complete);
+  const status = result.complete
+    ? 'ready'
+    : result.supported
+      ? 'partial'
+      : terminal
+        ? 'unavailable'
+        : 'waiting';
+
+  const detail = {
+    status,
+    supported: Boolean(result.supported),
+    complete: Boolean(result.complete),
+    expected: result.expected || 9,
+    registered: [...(result.registered || [])],
+    failed: [...(result.failed || [])],
+    attempt,
+  };
+  document.documentElement.dataset.webmcp = status;
+  window.MaybeWebMCPStatus = detail;
+  window.dispatchEvent(new CustomEvent('maybe:webmcp-status', { detail }));
+
+  if (currentStep === 'waiting') {
+    $('#waiting-status').textContent = webmcpSupported ? '' : t('status.noWebmcp');
+    scheduleDetailFit();
+  }
+}
+
+function initWebMCP() {
+  if (webmcpSupported) return Promise.resolve(window.MaybeWebMCPStatus);
+  if (webmcpInitPromise) return webmcpInitPromise;
+
+  webmcpInitPromise = (async () => {
+    let result = { supported: false, complete: false, expected: 9, registered: [], failed: [] };
+    for (let index = 0; index < WEBMCP_RETRY_DELAYS.length; index += 1) {
+      const delay = WEBMCP_RETRY_DELAYS[index];
+      if (delay) await new Promise((resolve) => setTimeout(resolve, delay));
+      result = await registerWebMCP(siteApi);
+      publishWebMCPStatus(result, index + 1, index === WEBMCP_RETRY_DELAYS.length - 1);
+      if (result.complete) return result;
+    }
+    return result;
+  })().finally(() => { webmcpInitPromise = null; });
+
+  return webmcpInitPromise;
 }
 
 initLanguageMenu();
@@ -1073,6 +1130,11 @@ window.addEventListener('maybe:language-change', () => {
   scheduleDetailFit();
 });
 window.addEventListener('resize', scheduleDetailFit, { passive: true });
+window.addEventListener('pageshow', () => { if (!webmcpSupported) void initWebMCP(); });
+window.addEventListener('focus', () => { if (!webmcpSupported) void initWebMCP(); });
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && !webmcpSupported) void initWebMCP();
+});
 
 applyTranslations();
 seedPersonalQuestionPack();

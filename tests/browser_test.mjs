@@ -38,7 +38,7 @@ function buildHtml() {
   html = html.replace(/<script async src="https:\/\/unpkg\.com\/es-module-shims[^>]*><\/script>/, '');
   html = html.replace(/<script type="importmap">[\s\S]*?<\/script>/, '');
   html = html.replace(/<script type="module" src="\.\/js\/main\.js(?:\?[^\"]*)?"><\/script>/, '');
-  html = html.replace(/<script type="module" src="\.\/js\/decision-ui\.js"><\/script>/, '');
+  html = html.replace(/<script type="module" src="\.\/js\/decision-ui\.js(?:\?[^\"]*)?"><\/script>/, '');
   return html;
 }
 
@@ -155,6 +155,13 @@ try {
   await page.evaluate(MOCK_ENV);
   await page.addScriptTag({content: bundle()});
   await page.waitForFunction(() => window.Maybe && window.__registeredTools.length === 9);
+
+  assert.deepEqual(await page.evaluate(() => ({
+    status: document.documentElement.dataset.webmcp,
+    complete: window.MaybeWebMCPStatus?.complete,
+    expected: window.MaybeWebMCPStatus?.expected,
+    registered: window.MaybeWebMCPStatus?.registered?.length,
+  })), {status: 'ready', complete: true, expected: 9, registered: 9});
 
   assert.equal(await visibleStep(page), 'home');
   assert.equal(await page.locator('.product-brand h1').innerText(), 'Maybe');
