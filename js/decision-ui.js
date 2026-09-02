@@ -15,7 +15,6 @@ import {
   clearHistory,
   exportMemory,
 } from './storage.js';
-import { registerWebMCP } from './webmcp.js?v=20260902-webmcp2';
 import {
   QUESTION_CATEGORIES,
   listQuestionCards,
@@ -1070,58 +1069,18 @@ const siteApi = {
   saveQuestionCards,
   useQuestionCard,
 };
-window.Maybe = siteApi;
-
-const WEBMCP_RETRY_DELAYS = [0, 50, 150, 400, 900, 1800, 3500, 7000, 12000];
-let webmcpInitPromise = null;
-
-function publishWebMCPStatus(result, attempt, terminal = false) {
-  webmcpSupported = Boolean(result.complete);
-  const status = result.complete
-    ? 'ready'
-    : result.supported
-      ? 'partial'
-      : terminal
-        ? 'unavailable'
-        : 'waiting';
-
-  const detail = {
-    status,
-    supported: Boolean(result.supported),
-    complete: Boolean(result.complete),
-    expected: result.expected || 9,
-    registered: [...(result.registered || [])],
-    failed: [...(result.failed || [])],
-    attempt,
-  };
-  document.documentElement.dataset.webmcp = status;
-  window.MaybeWebMCPStatus = detail;
-  window.dispatchEvent(new CustomEvent('maybe:webmcp-status', { detail }));
-
+function syncWebMCPStatus(detail = window.MaybeWebMCPStatus) {
+  webmcpSupported = Boolean(detail?.complete);
   if (currentStep === 'waiting') {
     $('#waiting-status').textContent = webmcpSupported ? '' : t('status.noWebmcp');
     scheduleDetailFit();
   }
 }
 
-function initWebMCP() {
-  if (webmcpSupported) return Promise.resolve(window.MaybeWebMCPStatus);
-  if (webmcpInitPromise) return webmcpInitPromise;
-
-  webmcpInitPromise = (async () => {
-    let result = { supported: false, complete: false, expected: 9, registered: [], failed: [] };
-    for (let index = 0; index < WEBMCP_RETRY_DELAYS.length; index += 1) {
-      const delay = WEBMCP_RETRY_DELAYS[index];
-      if (delay) await new Promise((resolve) => setTimeout(resolve, delay));
-      result = await registerWebMCP(siteApi);
-      publishWebMCPStatus(result, index + 1, index === WEBMCP_RETRY_DELAYS.length - 1);
-      if (result.complete) return result;
-    }
-    return result;
-  })().finally(() => { webmcpInitPromise = null; });
-
-  return webmcpInitPromise;
-}
+window.Maybe = siteApi;
+window.dispatchEvent(new CustomEvent('maybe:api-ready', { detail: { ready: true } }));
+window.addEventListener('maybe:webmcp-status', (event) => syncWebMCPStatus(event.detail));
+syncWebMCPStatus();
 
 initLanguageMenu();
 syncLanguageUI();
@@ -1130,13 +1089,6 @@ window.addEventListener('maybe:language-change', () => {
   scheduleDetailFit();
 });
 window.addEventListener('resize', scheduleDetailFit, { passive: true });
-window.addEventListener('pageshow', () => { if (!webmcpSupported) void initWebMCP(); });
-window.addEventListener('focus', () => { if (!webmcpSupported) void initWebMCP(); });
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden && !webmcpSupported) void initWebMCP();
-});
-
 applyTranslations();
 seedPersonalQuestionPack();
-initWebMCP().catch((error) => console.warn('[Maybe] WebMCP init failed', error));
 setStep('home');

@@ -1,0 +1,29 @@
+/*
+  Origin-Agent-Cluster: ?1
+  Permissions-Policy: tools=(self)
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+/index.html
+  Cache-Control: no-store, max-age=0, must-revalidate
+
+/maybe/
+  Cache-Control: no-store, max-age=0, must-revalidate
+
+/js/webmcp.js
+  Cache-Control: no-store, max-age=0, must-revalidate
+
+/js/webmcp-bootstrap.js
+  Cache-Control: no-store, max-age=0, must-revalidate
+
+/js/decision-ui.js
+  Cache-Control: no-store, max-age=0, must-revalidate
+
+/maybe/js/webmcp.js
+  Cache-Control: no-store, max-age=0, must-revalidate
+
+/maybe/js/webmcp-bootstrap.js
+  Cache-Control: no-store, max-age=0, must-revalidate
+
+/maybe/js/decision-ui.js
+  Cache-Control: no-store, max-age=0, must-revalidate

@@ -12,9 +12,10 @@ const ASSETS = fs.mkdtempSync(path.join(os.tmpdir(), 'maybe-browser-qa-'));
 function loadPlaywright() {
   const candidates = [
     'playwright',
+    process.env.PLAYWRIGHT_NODE_PATH,
     path.join(os.homedir(), '.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright'),
   ];
-  for (const candidate of candidates) {
+  for (const candidate of candidates.filter(Boolean)) {
     try { return require(candidate); } catch { /* try the next bundled/local path */ }
   }
   throw new Error('Playwright was not found. Install it locally or run this test inside Codex desktop.');
@@ -35,10 +36,12 @@ function buildHtml() {
   let html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
   const css = fs.readFileSync(path.join(ROOT, 'css/base.css'), 'utf8');
   html = html.replace(/<link rel="stylesheet" href="\.\/css\/base\.css"\s*\/?>/, `<style>${css}</style>`);
-  html = html.replace(/<script async src="https:\/\/unpkg\.com\/es-module-shims[^>]*><\/script>/, '');
+  html = html.replace(/<script[^>]*src="https:\/\/unpkg\.com\/es-module-shims[^>]*><\/script>/, '');
   html = html.replace(/<script type="importmap">[\s\S]*?<\/script>/, '');
-  html = html.replace(/<script type="module" src="\.\/js\/main\.js(?:\?[^\"]*)?"><\/script>/, '');
-  html = html.replace(/<script type="module" src="\.\/js\/decision-ui\.js(?:\?[^\"]*)?"><\/script>/, '');
+  html = html.replace(/<script[^>]*src="\.\/js\/main\.js(?:\?[^\"]*)?"[^>]*><\/script>/, '');
+  html = html.replace(/<script[^>]*src="\.\/js\/webmcp-bootstrap\.js(?:\?[^\"]*)?"[^>]*><\/script>/, '');
+  html = html.replace(/<link rel="modulepreload" href="\.\/js\/webmcp(?:-bootstrap)?\.js(?:\?[^\"]*)?" \/?>/g, '');
+  html = html.replace(/<script[^>]*src="\.\/js\/decision-ui\.js(?:\?[^\"]*)?"[^>]*><\/script>/, '');
   return html;
 }
 
@@ -49,7 +52,7 @@ function stripModule(text) {
 }
 
 function bundle() {
-  return ['mapping.js', 'storage.js', 'question-library-translations.js', 'question-library.js', 'i18n.js', 'webmcp.js', 'decision-ui.js']
+  return ['mapping.js', 'storage.js', 'question-library-translations.js', 'question-library.js', 'i18n.js', 'webmcp.js', 'webmcp-bootstrap.js', 'decision-ui.js']
     .map((name) => stripModule(fs.readFileSync(path.join(ROOT, 'js', name), 'utf8')))
     .join('\n\n');
 }
@@ -155,6 +158,24 @@ try {
   await page.evaluate(MOCK_ENV);
   await page.addScriptTag({content: bundle()});
   await page.waitForFunction(() => window.Maybe && window.__registeredTools.length === 9);
+  assert.equal(await page.evaluate(() => window.MaybeWebMCPStatus?.complete), true);
+
+  const reboundCount = await page.evaluate(async () => {
+    window.__reboundTools = [];
+    Object.defineProperty(document, 'modelContext', {
+      configurable: true,
+      value: {
+        async registerTool(tool) { window.__reboundTools.push(tool); },
+        getTools() { return window.__reboundTools; },
+      },
+    });
+    const deadline = Date.now() + 5000;
+    while (Date.now() < deadline && window.__reboundTools.length < 9) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    return window.__reboundTools.length;
+  });
+  assert.equal(reboundCount, 9, 'WebMCP watchdog must recover when the host replaces document.modelContext');
 
   assert.deepEqual(await page.evaluate(() => ({
     status: document.documentElement.dataset.webmcp,

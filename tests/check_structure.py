@@ -40,4 +40,15 @@ assert 'codex.openSub' not in html and 'shelf.openSub' not in html
 assert '--color-bg: #ddd' in css
 assert '--color-accent: #273e9a' in css
 assert '.product-brand' in css and '.dice-count-options' in css and '.question-card-list' in css
-print('PASS Maybe product shell, question shelf, 1-5 dice control, and progressive UI structure')
+
+# Production Site Tools bootstrap must run before the heavier decision UI and keep polling.
+assert './js/webmcp-bootstrap.js?v=20260902-hotfix1' in html
+assert html.index('./js/webmcp-bootstrap.js?v=20260902-hotfix1') < html.index('./js/decision-ui.js?v=20260902-hotfix1')
+bootstrap = (ROOT / 'js' / 'webmcp-bootstrap.js').read_text()
+assert 'WATCH_INTERVAL_MS = 2500' in bootstrap
+assert "context !== readyContext" in bootstrap
+assert 'window.MaybeWebMCPDiagnostics = collectDiagnostics' in bootstrap
+assert '/.webmcp/bridge.js' in bootstrap
+assert 'maybe:webmcp-status' in bootstrap
+
+print('PASS Maybe product shell, early persistent WebMCP bootstrap, question shelf, 1-5 dice control, and progressive UI structure')

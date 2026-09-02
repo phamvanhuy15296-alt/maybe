@@ -1,5 +1,7 @@
 # Maybe — A reusable decision shelf with Codex Site Tools
 
+**Version 5.2.0 WebMCP production hotfix (2026-09-02).**
+
 Maybe is a small Three.js / cannon-es decision experience built for human-agent play. Ask a one-off question or pick a reusable card, let Codex create editable choices, map the six faces, and let 1–5 visible physical dice vote.
 
 The active renderer remains isolated in `js/main.js`; the decision product layer in `js/decision-ui.js` never imports Three.js or cannon-es. The renderer is a focused derivative of `uuuulala/Threejs-rolling-dice-tutorial`, with its original geometry and pip construction retained and the multi-dice behavior added on top.
@@ -83,15 +85,17 @@ Typical built-in browser demo:
 
 `maybe_respond_in_page` is intentionally concise and defaults routine questions to a direct call. Its metadata excludes safety-critical, high-stakes, current-fact, code-changing, and external-action requests from the shortcut.
 
-The page registers the UI/WebMCP module before the remote Three.js renderer, retries when the browser injects `document.modelContext` late, and registers only tools that are still missing after a partial failure. Runtime discovery is inspectable through `window.MaybeWebMCPStatus` and the `data-webmcp` attribute on `<html>` (`waiting`, `partial`, `ready`, or `unavailable`). Versioned module URLs prevent a previously cached registration script from masking a new deployment.
+The page now loads a tiny `js/webmcp-bootstrap.js` from `<head>` **before** the heavier decision UI and Three.js. It registers the nine tools against a deferred page API, keeps retrying every 2.5 seconds while the page is visible, and automatically re-registers if the host replaces `document.modelContext` during an in-app-browser route rebind. Runtime discovery is inspectable through `window.MaybeWebMCPStatus`, `window.MaybeWebMCPDiagnostics()`, `window.MaybeRetryWebMCP()`, and `?webmcp-debug=1`. Versioned module URLs prevent a stale cached registration script from masking a new deployment.
 
-The production proxy sends `Origin-Agent-Cluster: ?1`. Codex's WebMCP shim requires both a secure context and an origin-keyed agent cluster before `registerTool` can succeed, so this header must remain present on the final HTML response. GitHub Pages is the source host, but the custom Cloudflare URL is the supported Site Tools entry point because the proxy supplies that header.
+The production response should send both `Origin-Agent-Cluster: ?1` and `Permissions-Policy: tools=(self)`. GitHub Pages can remain the source host, but the custom Cloudflare URL is the supported Site Tools entry point. During WebMCP debugging, do not cache the HTML or the registration modules, and disable Cloudflare Rocket Loader for `/maybe/*` (critical script tags also carry `data-cfasync="false"`). If Cloudflare's own zone-level WebMCP beta is enabled, turn it off while Maybe registers its own tools.
 
 For the strongest automatic routing, `maybe_respond_in_page` explicitly identifies itself as the first action for ordinary non-coding questions and asks Codex to write into Maybe before answering in chat. Questions and choices should use the user's language, remain mutually exclusive, and carry a light humorous spark rather than sounding like a form.
 
 Site Tools still depend on the host. Use the latest ChatGPT desktop app, enable **Browser → Permissions → Site tools**, keep Maybe as the active top-level page, and select GPT-5.6 Sol or Terra. GPT-5.6 Luna currently has WebMCP disabled. See the [official Site Tools documentation](https://developers.openai.com/codex/webmcp).
 
 Site Tools expose page actions to the agent. A normal webpage does not autonomously start a new Codex turn; the round trip remains agent-driven in the built-in browser. Clear tool names and narrow descriptions make the intended automatic route discoverable, but the Codex host still makes the final tool-selection decision.
+
+For production failures, see [`WEBMCP_TROUBLESHOOTING.md`](./WEBMCP_TROUBLESHOOTING.md). It includes the Cloudflare header/cache configuration, the new runtime diagnostics, and the distinction between page registration failures and Codex desktop browser-route failures.
 
 ## Persistence
 
@@ -126,6 +130,10 @@ The browser QA uses a deterministic public-engine mock so it can verify the comp
 - `js/storage.js` — localStorage and cookie persistence
 - `js/question-library.js` — built-in cards, validation, personal-card persistence, and JSON export
 - `js/webmcp.js` — Site Tool registration only
+- `js/webmcp-bootstrap.js` — earliest-possible registration, persistent context-rebind watchdog, and production diagnostics
+- `_headers` — Cloudflare Pages WebMCP-critical headers/cache policy
+- `cloudflare/worker.js` — optional Worker proxy for the canonical `/maybe/` deployment
+- `WEBMCP_TROUBLESHOOTING.md` — production diagnosis and Codex route recovery guide
 - `tests/` — structure, mapping, MCP, and browser-flow QA
 
 ## License
