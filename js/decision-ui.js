@@ -307,7 +307,7 @@ function saveCurrentDecisionToShelf() {
 
 function buildCodexDeepLink() {
   const deepLink = new URL('https://chatgpt.com/codex/deeplink');
-  deepLink.searchParams.set('url', 'https://webmcp.qinqinghua.tech/maybe');
+  deepLink.searchParams.set('url', 'https://webmcp.qinqinghua.tech/maybe/');
   return deepLink.href;
 }
 

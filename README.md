@@ -25,7 +25,7 @@ The first screen has two primary actions:
 1. **Throw the dice** — use the selected 1–5 dice as a normal roller.
 2. **Ask a question** — start the Codex-assisted decision game.
 
-It also includes **Open in Codex** for visitors arriving from Chrome, Edge, or another browser. The button uses OpenAI's web handoff URL with the canonical deployment encoded as its destination: `https://chatgpt.com/codex/deeplink?url=https%3A%2F%2Fwebmcp.qinqinghua.tech%2Fmaybe`. This keeps local previews and shared copies pointing back to the public WebMCP experience.
+It also includes **Open in Codex** for visitors arriving from Chrome, Edge, or another browser. The button uses OpenAI's web handoff URL with the canonical deployment encoded as its destination: `https://chatgpt.com/codex/deeplink?url=https%3A%2F%2Fwebmcp.qinqinghua.tech%2Fmaybe%2F`. The destination includes the final trailing slash so the built-in browser reaches the tool-providing document without an intermediate redirect.
 
 The question path stays progressive:
 
@@ -84,6 +84,8 @@ Typical built-in browser demo:
 `maybe_respond_in_page` is intentionally concise and defaults routine questions to a direct call. Its metadata excludes safety-critical, high-stakes, current-fact, code-changing, and external-action requests from the shortcut.
 
 The page registers the UI/WebMCP module before the remote Three.js renderer, retries when the browser injects `document.modelContext` late, and registers only tools that are still missing after a partial failure. Runtime discovery is inspectable through `window.MaybeWebMCPStatus` and the `data-webmcp` attribute on `<html>` (`waiting`, `partial`, `ready`, or `unavailable`). Versioned module URLs prevent a previously cached registration script from masking a new deployment.
+
+The production proxy sends `Origin-Agent-Cluster: ?1`. Codex's WebMCP shim requires both a secure context and an origin-keyed agent cluster before `registerTool` can succeed, so this header must remain present on the final HTML response. GitHub Pages is the source host, but the custom Cloudflare URL is the supported Site Tools entry point because the proxy supplies that header.
 
 For the strongest automatic routing, `maybe_respond_in_page` explicitly identifies itself as the first action for ordinary non-coding questions and asks Codex to write into Maybe before answering in chat. Questions and choices should use the user's language, remain mutually exclusive, and carry a light humorous spark rather than sounding like a form.
 

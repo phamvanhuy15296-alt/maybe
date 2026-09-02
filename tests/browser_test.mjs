@@ -179,7 +179,7 @@ try {
   assert.deepEqual(launcherStyles.codex, launcherStyles.shelf);
   assert.equal(
     await page.locator('#open-codex-btn').getAttribute('href'),
-    'https://chatgpt.com/codex/deeplink?url=https%3A%2F%2Fwebmcp.qinqinghua.tech%2Fmaybe',
+    'https://chatgpt.com/codex/deeplink?url=https%3A%2F%2Fwebmcp.qinqinghua.tech%2Fmaybe%2F',
   );
   assert.equal(await page.locator('#global-home-btn').isVisible(), false);
 
