@@ -1,6 +1,6 @@
-import { registerWebMCP, WEBMCP_TOOL_COUNT } from './webmcp.js?v=20260902-hotfix1';
+import { registerWebMCP, WEBMCP_TOOL_COUNT } from './webmcp.js?v=20260903-playful';
 
-const BUILD_ID = '2026-09-02-webmcp-hotfix1';
+const BUILD_ID = '2026-09-03-playful';
 const WATCH_INTERVAL_MS = 2500;
 const API_WAIT_TIMEOUT_MS = 20000;
 const API_METHODS = [

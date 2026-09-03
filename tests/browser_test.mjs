@@ -35,7 +35,7 @@ function findChromium() {
 function buildHtml() {
   let html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
   const css = fs.readFileSync(path.join(ROOT, 'css/base.css'), 'utf8');
-  html = html.replace(/<link rel="stylesheet" href="\.\/css\/base\.css"\s*\/?>/, `<style>${css}</style>`);
+  html = html.replace(/<link rel="stylesheet" href="\.\/css\/base\.css(?:\?[^"]*)?"\s*\/?>/, `<style>${css}</style>`);
   html = html.replace(/<script[^>]*src="https:\/\/unpkg\.com\/es-module-shims[^>]*><\/script>/, '');
   html = html.replace(/<script type="importmap">[\s\S]*?<\/script>/, '');
   html = html.replace(/<script[^>]*src="\.\/js\/main\.js(?:\?[^\"]*)?"[^>]*><\/script>/, '');
@@ -186,7 +186,7 @@ try {
 
   assert.equal(await visibleStep(page), 'home');
   assert.equal(await page.locator('.product-brand h1').innerText(), 'Maybe');
-  assert.deepEqual(await page.locator('.home-actions button').allInnerTexts(), ['Throw the dice', 'Ask a question']);
+  assert.deepEqual(await page.locator('.home-actions button').allInnerTexts(), ['Roll the dice', 'Ask a question']);
   assert.equal(await page.locator('button[data-dice-count]').count(), 5);
   assert.equal(await page.locator('#open-codex-btn small, #library-btn small').count(), 0);
   const launcherStyles = await page.evaluate(() => {
@@ -210,7 +210,7 @@ try {
   assert.equal(await page.locator('.question-card').count(), 26);
   await page.click('#language-button');
   await page.locator('#language-menu button', {hasText: '中文'}).click();
-  assert.equal(await page.locator('.question-card .use-card').first().innerText(), '使用这张卡片');
+  assert.equal(await page.locator('.question-card .use-card').first().innerText(), '玩这个');
   assert.equal(await page.locator('#language-button').evaluate((button) => getComputedStyle(button).borderTopWidth), '0px');
   await page.click('#language-button');
   await page.locator('#language-menu button', {hasText: 'English'}).click();
@@ -234,6 +234,8 @@ try {
   await page.locator('.question-card', { hasText: 'What should I demo first?' }).locator('.use-card').evaluate((button) => button.click());
   assert.equal(await visibleStep(page), 'options');
   assert.equal(await page.locator('.option-row').count(), 3);
+  assert.equal(await page.locator('#options-question').innerText(), '“What should I demo first?”');
+  assert.equal(await page.locator('#options-question').isVisible(), true);
   await page.click('[data-step="options"] [data-back="question"]');
   await page.click('[data-step="question"] [data-back="home"]');
 
@@ -313,6 +315,7 @@ try {
   assert.equal(await page.locator('.option-row').count(), 3);
   assert.equal(await page.locator('#assistant-text').isHidden(), true);
   assert.match((await page.evaluate(() => window.Maybe.getState())).assistantText, /three distinct directions/);
+  assert.equal(await page.locator('#options-question').innerText(), '“What should I eat for lunch today?”');
   await page.click('[data-step="options"] [data-save-current]');
   assert.match(await page.locator('[data-step="options"] [data-save-status]').innerText(), /Saved to your Question Shelf/);
   assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('maybe_question_cards_v1')).some(
@@ -339,6 +342,24 @@ try {
   await page.click('#decision-roll-btn');
   await page.waitForFunction(() => document.querySelector('.game-step:not(.is-hidden)').dataset.step === 'result');
   assert.ok(['Sushi', 'Rice bowl', 'Salad', 'Burgers'].includes(await page.locator('#result-title').innerText()));
+  assert.equal(await page.locator('#result-question').innerText(), await page.locator('#ready-question').textContent());
+  assert.equal(await page.locator('#result-question').isVisible(), true);
+  for (const fit of ['', 'fit-compact', 'fit-dense', 'fit-tight']) {
+    const typography = await page.evaluate((fit) => {
+      const ui = document.querySelector('.ui-controls');
+      const original = ui.className;
+      ui.classList.remove('fit-compact', 'fit-dense', 'fit-tight');
+      if (fit) ui.classList.add(fit);
+      const styles = ['roll-again-btn', 'new-question-btn', 'history-btn'].map((id) => {
+        const style = getComputedStyle(document.getElementById(id));
+        return [style.fontSize, style.fontWeight, style.lineHeight, style.marginTop];
+      });
+      ui.className = original;
+      return styles;
+    }, fit);
+    assert.deepEqual(typography[2], typography[0], `${fit}: History typography differs from Throw again`);
+    assert.deepEqual(typography[2], typography[1], `${fit}: History typography differs from Ask another question`);
+  }
   const state = await page.evaluate(() => window.Maybe.getState());
   assert.equal(state.diceCount, 5);
   assert.deepEqual(state.currentScore, [5, 2, 3, 4, 6]);
@@ -419,9 +440,64 @@ try {
     assert.ok(label.scrollWidth <= label.clientWidth + 1, 'zoomed portrait: button label is clipped');
   });
 
+  const personalBeforeLocales = await page.evaluate(() => localStorage.getItem('maybe_question_cards_v1'));
+  for (const locale of ['en', 'zh', 'fr', 'ja', 'ko', 'es', 'de']) {
+    await page.evaluate((locale) => setLocale(locale), locale);
+    for (const [width, height] of [[385, 688], [844, 390], [1440, 900]]) {
+      const label = `${locale} ${width}x${height}`;
+      await page.setViewportSize({width, height});
+      await page.waitForTimeout(80);
+      await assertBounds(page, label);
+      const home = await page.evaluate(() => {
+        const ui = document.querySelector('.ui-controls');
+        return {
+          bottom: ui.getBoundingClientRect().bottom,
+          limit: innerHeight * .6,
+          labels: [...document.querySelectorAll('.home-actions button, #open-codex-btn strong, #library-btn strong')]
+            .map((el) => ({text: el.textContent, width: el.clientWidth, content: el.scrollWidth})),
+        };
+      });
+      assert.ok(home.bottom <= home.limit + 1, `${label}: 60% boundary`);
+      home.labels.forEach((item) => assert.ok(item.content <= item.width + 1, `${label}: home label clipped: ${JSON.stringify(item)}`));
+      await page.click('#ask-btn');
+      assert.equal(await page.locator('#question-input').getAttribute('placeholder'), await page.evaluate(() => t('question.placeholder')));
+      await page.evaluate(() => window.Maybe.useQuestionCard('daily-dinner-talks'));
+      assert.equal(await page.locator('[data-i18n="options.title"]').innerText(), await page.evaluate(() => t('options.title')));
+      const question = await page.evaluate(() => window.Maybe.getState().question);
+      assert.equal(await page.locator('#options-question').innerText(), `“${question}”`);
+      await page.click('#options-next-btn');
+      assert.equal(await page.locator('#ready-question').innerText(), `“${question}”`);
+      await page.click('#decision-roll-btn');
+      await page.waitForFunction(() => document.documentElement.dataset.maybeStep === 'result');
+      await page.waitForTimeout(80);
+      assert.equal(await page.locator('#result-question').innerText(), `“${question}”`);
+      assert.ok((await page.evaluate(() => window.Maybe.getState().options)).includes(await page.locator('#result-title').innerText()));
+      await assertBounds(page, `${label} result`);
+      if (height >= 688) {
+        const fits = await page.evaluate(() => {
+          const ui = document.querySelector('.ui-controls');
+          return ui.scrollHeight <= ui.clientHeight + 1;
+        });
+        assert.ok(fits, `${label}: result needs scrolling`);
+      }
+      if (process.env.MAYBE_QA_KEEP_ARTIFACTS && width === 385) {
+        await page.screenshot({path: path.join(ASSETS, `result-${locale}.png`), fullPage: true});
+      }
+      await page.click('#history-btn');
+      assert.equal(await page.locator('[data-i18n="history.title"]').innerText(), await page.evaluate(() => t('history.title')));
+      await page.click('#global-home-btn');
+      await page.click('#library-btn');
+      assert.equal(await page.locator('.use-card').first().innerText(), await page.evaluate(() => t('shelf.useCard')));
+      assert.equal(await page.locator('#canvas').evaluate((el) => getComputedStyle(el).display), 'none');
+      await page.click('#global-home-btn');
+    }
+  }
+  assert.equal(await page.evaluate(() => localStorage.getItem('maybe_question_cards_v1')), personalBeforeLocales);
+  assert.equal(await page.evaluate(() => window.__registeredTools.length), 9);
   assert.deepEqual(errors, []);
   console.log('PASS browser 1-5 dice flow, responsive layout, and live WebMCP callbacks');
 } finally {
   await browser.close();
-  fs.rmSync(ASSETS, {recursive: true, force: true});
+  if (process.env.MAYBE_QA_KEEP_ARTIFACTS) console.log(`QA screenshots: ${ASSETS}`);
+  else fs.rmSync(ASSETS, {recursive: true, force: true});
 }

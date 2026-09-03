@@ -23,7 +23,7 @@ import {
   saveCustomQuestionCards,
   removeCustomQuestionCard,
   exportQuestionPack,
-} from './question-library.js';
+} from './question-library.js?v=20260903-playful';
 import {
   LANGUAGES,
   getLocale,
@@ -32,7 +32,7 @@ import {
   tp,
   setLocale,
   applyTranslations,
-} from './i18n.js?v=20260902-webmcp2';
+} from './i18n.js?v=20260903-playful';
 
 const $ = (selector) => document.querySelector(selector);
 const $$ = (selector) => [...document.querySelectorAll(selector)];
@@ -53,6 +53,7 @@ const els = {
   followupNext: $('#followup-next-btn'),
   followupSkip: $('#followup-skip-btn'),
   assistantText: $('#assistant-text'),
+  optionsQuestion: $('#options-question'),
   optionList: $('#option-list'),
   optionTemplate: $('#option-template'),
   addOption: $('#add-option-btn'),
@@ -65,6 +66,7 @@ const els = {
   balanceOdds: $('#balance-odds-btn'),
   decisionRoll: $('#decision-roll-btn'),
   resultTitle: $('#result-title'),
+  resultQuestion: $('#result-question'),
   resultDetail: $('#result-detail'),
   answerQuestion: $('#answer-question'),
   answerText: $('#answer-text'),
@@ -461,6 +463,8 @@ function submitQuestion() {
 }
 
 function renderOptions({ focusLast = false } = {}) {
+  els.optionsQuestion.textContent = state.question ? `“${state.question}”` : '';
+  els.optionsQuestion.hidden = !state.question;
   els.assistantText.textContent = state.assistantText || t('options.defaultAssistant');
   els.optionList.innerHTML = '';
 
@@ -588,6 +592,8 @@ function parseFaces() {
 }
 
 function renderResult(result) {
+  els.resultQuestion.textContent = state.question ? `“${state.question}”` : '';
+  els.resultQuestion.hidden = !state.question;
   els.resultTitle.textContent = result.winner;
   const voteText = result.votes
     .map((vote) => `${vote.face} → ${vote.option}`)
@@ -751,7 +757,7 @@ function getContext() {
     clarifications: [...state.clarifications],
     locale: getLocale(),
     preferredTool: 'maybe_respond_in_page',
-    instruction: 'Call maybe_respond_in_page next. For ordinary non-coding questions, do not answer in chat first and do not research: write the answer into Maybe or create 2-6 vivid, mutually exclusive, lightly humorous choices in the user\'s language. Set autoRoll when the user wants a decision now.',
+    instruction: 'Call maybe_respond_in_page next. For ordinary non-coding questions, do not answer in chat first and do not research: write the answer into Maybe or create 2-6 concrete, mutually exclusive, gently playful choices. Preserve the original question. Use the user’s language, or the page language when unclear. Add a small surprise, not corporate wording, dated memes, forced characters, or recursive roll-again choices. Safety-sensitive and high-stakes questions are not games. Set autoRoll when the user wants a decision now.',
   };
 }
 
@@ -797,6 +803,7 @@ function syncLanguageUI() {
     }
     if (currentStep === 'options') renderOptions();
     if (currentStep === 'ready') renderMappingSummary();
+    if (currentStep === 'result') renderResult(resolveFaces(parseFaces(), state.options, state.mapping));
     if (currentStep === 'odds') renderFaceMapping();
     if (currentStep === 'history') renderHistory();
   }

@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "python3 tests/check_upstream.py && python3 tests/check_structure.py && node tests/test_mapping.mjs && node tests/test_question_library.mjs && node tests/test_webmcp.mjs && node tests/test_webmcp_bootstrap.mjs",
+    "test": "python3 tests/check_upstream.py && python3 tests/check_structure.py && node tests/test_mapping.mjs && node tests/test_question_library.mjs && node tests/test_copy.mjs && node tests/test_webmcp.mjs && node tests/test_webmcp_bootstrap.mjs",
     "test:browser": "node tests/browser_test.mjs"
   }
 }

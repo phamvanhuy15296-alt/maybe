@@ -1,554 +1,1094 @@
 export const BUILT_IN_CARD_TRANSLATIONS = Object.freeze({
-  zh: [
+  "zh": [
     {
-      question: '这场本该用邮件解决的会议该如何补救？',
-      message: '让日历少一点主角光环，多一点执行感。',
-      options: ['改成异步记录文档', '开 15 分钟决策短会', '取消会议，改成三条要点消息'],
+      "question": "这场会议，怎么早点迎来片尾？",
+      "message": "少聊一点，把下午还回来。",
+      "options": [
+        "改成共享文档",
+        "只留 15 分钟做决定",
+        "取消会议，发三条要点",
+        "保留时间，各自安静做事"
+      ]
     },
     {
-      question: '谁来负责这次会后纪要？',
-      message: '每场协作都需要一个行动项的记录者。',
-      options: ['会议发起人', '按字母顺序轮值', '最后入场的人', '让骰子今天点名纪录员'],
+      "question": "这次纪要，怎么选个记录方式？",
+      "message": "记下重点，不必开启史诗任务。",
+      "options": [
+        "请一位自愿者记录",
+        "按轮值表来",
+        "由会议发起人记录",
+        "每人记自己的行动项"
+      ]
     },
     {
-      question: '下一个「非官方」周五传统活动应该是什么？',
-      message: '团队文化就是反复发生的好习惯，加点好吃的更容易坚持。',
-      options: ['五分钟成果快闪', '微小胜利奖', '无议题咖啡轮盘', '戏剧化的收件箱清零倒计时'],
+      "question": "周五加个什么小节目？",
+      "message": "不用先开会讨论这个活动。",
+      "options": [
+        "五分钟成果快闪",
+        "每人讲一件小进展",
+        "一起吃点小零食",
+        "留一小时不排会议"
+      ]
     },
     {
-      question: '晚饭时间谁来拍板？',
-      message: '今天的晚餐不是冰箱自己决定的。',
-      options: ['来一碗信心爆棚的面', '蒸饺，因为乐趣也是有层次的', '一份颜值米饭碗', '晚餐改成早餐吃法'],
+      "question": "今晚的快乐，点哪一道？",
+      "message": "一顿饭，也能有个小转折。",
+      "options": [
+        "面条暖场",
+        "咖喱撑腰",
+        "饺子组队",
+        "早餐客串晚餐"
+      ]
     },
     {
-      question: '如何抢救接下来 20 分钟？',
-      message: '不用重造世界，先给时间一个小转折。',
-      options: ['无目标地随便走一圈', '清理一处烦人的堆积', '读 10 页书', '给一个想念的人打电话', '调一个精致到离谱的饮品'],
+      "question": "空出 20 分钟，给今天加点什么？",
+      "message": "不用改变人生，换个小心情就好。",
+      "options": [
+        "出门绕一圈",
+        "画张丑得开心的画",
+        "读几页闲书",
+        "认真调杯饮料"
+      ]
     },
     {
-      question: '今天要来一段怎样的小冒险？',
-      message: '不需要护照、任务单，也不需要选民。',
-      options: ['尝试附近最怪的零食', '绕远路回家', '去一个总是匆匆路过的地方', '拍下五张意外路人的样子'],
+      "question": "今天绕个什么小弯？",
+      "message": "口袋大小的冒险，也算冒险。",
+      "options": [
+        "走条附近没走过的小路",
+        "尝一款平价新零食",
+        "画下熟悉的街角",
+        "拍五张像人脸的物件"
+      ]
     },
     {
-      question: '今天要把最清醒的大脑留给哪个任务？',
-      message: '让骰子帮你把高质量注意力从收件箱噪音里捞出来。',
-      options: ['后果最大的任务', '一直在拖的任务', '能帮别人先解锁进度的任务', '最小但能形成成果的任务'],
+      "question": "先把 25 分钟送给哪件事？",
+      "message": "收件箱可以晚点登场。",
+      "options": [
+        "推进今天的主要任务",
+        "回复一条卡住别人的消息",
+        "整理一小块工作区域",
+        "学一个实用快捷操作"
+      ]
     },
     {
-      question: '午饭前把这个项目推进一步，优先怎么做？',
-      message: '当项目像摆件一样僵住时，需要一个实用的轻推。',
-      options: ['把范围砍一半', '点明一个未决策项', '找人一起 25 分钟配对', '先交付一个粗略版本', '请最安静但最专业的人点一锤'],
+      "question": "项目卡住了，先轻推哪一下？",
+      "message": "只推一步，不用当救世英雄。",
+      "options": [
+        "缩小第一个里程碑",
+        "写清还没答案的问题",
+        "找人一起做 25 分钟",
+        "做个粗糙小样"
+      ]
     },
     {
-      question: '这周我该礼貌地停止什么？',
-      message: '战略减法：生产力里最不显眼却最有用的一招。',
-      options: ['没有决策的会议', '没人看的报告', '越做越大的情面请求', '没人要求的完美修饰'],
+      "question": "这周，给哪件事少留点位置？",
+      "message": "腾点空间，不用发表宣言。",
+      "options": [
+        "缩短一次例会",
+        "停掉一份没人用的报告",
+        "只在固定时段看邮件",
+        "给一份完成的稿子停止抛光"
+      ]
     },
     {
-      question: '这只看起来自信过头的 bug 该怎么对待？',
-      message: '错误知道自己做了什么，我们只缺据可见。',
-      options: ['写最小可复现测试', '回溯最近提交', '在边界处加可观测点', '向橡皮鸭解释一遍', '带点尊严地清一次缓存'],
+      "question": "这个 Bug，先从哪儿破案？",
+      "message": "放大镜可以先不买。",
+      "options": [
+        "做最小复现",
+        "检查最近改动",
+        "补关键日志",
+        "向橡皮鸭陈述案情"
+      ]
     },
     {
-      question: '下一次重构，先去改哪里才最值当？',
-      message: '一次只解一条结，不要把整团毛线一次解开。',
-      options: ['全员敬畏的模块', '重复出现的业务规则', '最慢的开发循环', '最脆弱的测试断点'],
+      "question": "这次重构，先解哪个小结？",
+      "message": "一次一根线，不拆整件毛衣。",
+      "options": [
+        "提取一条重复规则",
+        "改清楚含糊的变量名",
+        "拆一个过长的函数",
+        "给一个脆弱模块补测试"
+      ]
     },
     {
-      question: '测试绿了，今天该怎么庆祝？',
-      message: '绿码值得一小段仪式感。',
-      options: ['赶紧上线，别让它后悔', '补一个遗漏的回归测试', '发一张“终结了错误”的终端图', '去散步庆祝', '给这只 bug 起个名字并纪念'],
+      "question": "测试绿了，来个什么小庆祝？",
+      "message": "胜利巡游，五分钟也够。",
+      "options": [
+        "散步五分钟",
+        "泡杯喜欢的饮料",
+        "在进展本里记一笔",
+        "画下刚打败的 Bug"
+      ]
     },
     {
-      question: '今天混乱的“官方罪魁祸首”是谁？',
-      message: '当事故复盘被传说取代时，人需要一点喜剧。',
-      options: ['水银在做代码评审', '一份电子表格长出了意识', '有人说“快速同步”', '办公室植物收回了授权', '星期二越权闯入了权限'],
+      "question": "今天的混乱，编个什么离谱解释？",
+      "message": "仅供虚构报告使用。",
+      "options": [
+        "标签页偷偷开了派对",
+        "星期二没带说明书",
+        "表格学会了即兴表演",
+        "咖啡去做支线任务了"
+      ]
     },
     {
-      question: '这个 deadline 应该叫什么影视标题？',
-      message: '既然要冲刺，为什么不装作电影预告片。',
-      options: ['Deadline: Impossible', '极速与好奇', '全世界都很神秘版', '范围蠕变归来'],
+      "question": "给这次截止日期起个电影名？",
+      "message": "预告片气势要足，预算可以没有。",
+      "options": [
+        "最后五分钟",
+        "再改一小点",
+        "消失文件归来",
+        "明天原来是昨天"
+      ]
     },
     {
-      question: '下午 3 点可以做的轻度“办公室叛乱”是？',
-      message: '低风险，高士气，还能保留可爱借口。',
-      options: ['把每次会议都叫“聚会”', '把术语改成动物叫法', '正式地举行一次零食投票', '在进度会上戴墨镜发言'],
+      "question": "下午来点什么无害的小胡闹？",
+      "message": "自己开心，不拉同事下水。",
+      "options": [
+        "给自己的本子起个电影名",
+        "在废纸上画只小怪兽",
+        "在便签上给零食颁个奖",
+        "给自己的桌面写份天气预报"
+      ]
     },
     {
-      question: '哪个约束会让这个创意更有趣？',
-      message: '创造力喜欢被轻度栅栏包围再跳出来。',
-      options: ['用六个字说清它', '只做无屏幕版本', '只给某个具体人设计', '只使用现有素材', '把无聊的部分弄得有趣一点'],
+      "question": "给这个点子加条什么好玩的规则？",
+      "message": "小限制，也能开出新路。",
+      "options": [
+        "用六个词讲清楚",
+        "只用两种颜色",
+        "做一个纯纸版",
+        "让它能装进口袋"
+      ]
     },
     {
-      question: '开场画面该如何开始？',
-      message: '先放一个入口，让好奇心自己把灯打开。',
-      options: ['一个不该在的位置出现的道具', '一个早已失约的承诺', '一个没人理解的庆祝瞬间', '明天寄来的消息', '该响却沉默的静音场景'],
+      "question": "这个小故事，从哪一幕开始？",
+      "message": "挑个开场，后面慢慢长出来。",
+      "options": [
+        "一把哪儿都打不开的钥匙",
+        "一张写着明天日期的纸条",
+        "一场宾客名单空白的派对",
+        "水下响起的门铃"
+      ]
     },
     {
-      question: '下一版原型的感觉应该是什么？',
-      message: '情绪有时是最有用的产品需求。',
-      options: ['一把灵巧的小工具', '只有一把舒服椅子的安静屋子', '一位俏皮的副驾驶', '一本手作外出指南', '成人版小游戏机'],
-    },
+      "question": "下个小样，试试哪种感觉？",
+      "message": "先选个氛围，做一小次实验。",
+      "options": [
+        "安静的阅读角",
+        "明亮的迷你街机厅",
+        "好奇心满满的自然手册",
+        "温暖的厨房餐桌"
+      ]
+    }
   ],
-  fr: [
+  "fr": [
     {
-      question: 'Comment sauver une réunion qui aurait dû être un email ?',
-      message: 'Un petit détour pour un agenda trop centré sur son ego.',
-      options: ['Transformer l’ordre du jour en document asynchrone', 'Faire un point décisionnel de 15 minutes', 'L’annuler et envoyer trois messages clairs'],
+      "question": "Comment raccourcir la fin de cette réunion ?",
+      "message": "Un peu moins de paroles, un peu plus d’après-midi.",
+      "options": [
+        "Passer à une note partagée",
+        "Garder 15 minutes pour décider",
+        "Annuler et envoyer trois points clés",
+        "Garder le créneau pour travailler en silence"
+      ]
     },
     {
-      question: 'Qui a la noblesse du rôle de rapporteur ?',
-      message: 'Chaque équipe a besoin d’un gardien des actions. ',
-      options: ['La personne qui l’a réservée', 'Rotation alphabétique', 'La dernière personne connectée', 'Laisser le dé désigner le rédacteur du jour'],
+      "question": "Comment choisir qui prend les notes ?",
+      "message": "Des notes, pas une quête épique.",
+      "options": [
+        "Demander un volontaire",
+        "Suivre un roulement",
+        "Confier les notes à l’organisateur",
+        "Chacun note ses propres actions"
+      ]
     },
     {
-      question: 'Quel rituel de vendredi devrait devenir officiel ?',
-      message: 'La culture, c’est un comportement récurrent avec de bons snacks.',
-      options: ['Parade de mini-démo', 'Prix du micro-résultat', 'Tirage-café sans agenda', 'Compte à rebours dramatique d’inbox zéro'],
+      "question": "Quel petit rituel essayer vendredi ?",
+      "message": "Pas besoin d’un comité.",
+      "options": [
+        "Cinq minutes de démos",
+        "Une petite victoire par personne",
+        "Une pause goûter ensemble",
+        "Une heure sans réunion"
+      ]
     },
     {
-      question: 'Qui décide du dîner ce soir ?',
-      message: 'Le placard ne vote pas pour nous. ',
-      options: ['Des nouilles avec une confiance excessive', 'Des raviolis, parce que la joie se plie', 'Un bol de riz coloré', 'Le petit-déjeuner pour le dîner'],
+      "question": "Quel bonheur mettre dans l’assiette ce soir ?",
+      "message": "Un repas, quatre petits rebondissements.",
+      "options": [
+        "Un bol de nouilles bien chaud",
+        "Un curry un peu relevé",
+        "Des raviolis bien alignés",
+        "Un petit-déjeuner invité au dîner"
+      ]
     },
     {
-      question: 'Comment sauver les 20 prochaines minutes ?',
-      message: 'Pas assez de temps pour se réinventer, assez pour un petit rebondissement.',
-      options: ['Marcher sans cap précis', 'Débarrasser une surface ennuyeuse', 'Lire dix pages', 'Appeler quelqu’un qui me manque', 'Composer une boisson remarquablement sophistiquée'],
+      "question": "Vingt minutes libres : on en fait quoi ?",
+      "message": "Pas besoin de réinventer sa vie.",
+      "options": [
+        "Faire un petit tour dehors",
+        "Dessiner quelque chose de joyeusement bancal",
+        "Lire quelques pages pour le plaisir",
+        "Préparer une boisson avec soin"
+      ]
     },
     {
-      question: 'Quelle micro-aventure entreprendre aujourd’hui ?',
-      message: 'Aucune carte de voyage, aucune prophétie nécessaire.',
-      options: ['Goûter le snack le plus étrange', 'Prendre le long chemin du retour', 'Visiter un endroit que je traverse toujours', 'Photographier cinq visages accidentels'],
+      "question": "Quel petit détour essayer aujourd’hui ?",
+      "message": "L’aventure en format poche.",
+      "options": [
+        "Prendre une rue voisine inconnue",
+        "Goûter un nouveau snack bon marché",
+        "Dessiner un coin familier",
+        "Photographier cinq objets qui ressemblent à des visages"
+      ]
     },
     {
-      question: 'Quelle tâche mérite mon cerveau le plus frais ?',
-      message: 'Laissez le dé protéger votre meilleure attention du bruit des messages.',
-      options: ['La tâche à plus fort impact', 'La tâche que j’évite', 'La tâche qui débloque quelqu’un d’autre', 'La plus petite victoire utile'],
+      "question": "À quoi offrir 25 minutes d’attention ?",
+      "message": "La boîte mail peut attendre.",
+      "options": [
+        "Avancer sur ma tâche principale",
+        "Répondre à un message qui bloque quelqu’un",
+        "Ranger un petit coin de travail",
+        "Apprendre un raccourci utile"
+      ]
     },
     {
-      question: 'Comment débloquer ce projet avant le déjeuner ?',
-      message: 'Un petit coup de coude pour un projet qui fait du meuble.',
-      options: ['Diviser la portée de moitié', 'Nommer la décision manquante', 'Pairer pendant 25 minutes', 'Livrer une première tranche imparfaite', 'Demander au plus silencieux un avis'],
+      "question": "Comment donner un petit élan à ce projet ?",
+      "message": "Une poussée, pas un sauvetage héroïque.",
+      "options": [
+        "Réduire la première étape",
+        "Écrire la question encore sans réponse",
+        "Travailler à deux pendant 25 minutes",
+        "Faire une démo toute simple"
+      ]
     },
     {
-      question: 'Que dois-je arrêter poliment cette semaine ?',
-      message: 'La soustraction stratégique : productivité moins théâtrale.',
-      options: ['Une réunion sans décision', 'Un rapport que personne ne lit', 'Une faveur qui ne cesse de grandir', 'Une passe de perfection non demandée'],
+      "question": "À quoi laisser moins de place cette semaine ?",
+      "message": "Faire de la place sans faire un discours.",
+      "options": [
+        "Raccourcir une réunion régulière",
+        "Supprimer un rapport inutilisé",
+        "Lire les mails à heures fixes",
+        "Arrêter de retoucher un brouillon terminé"
+      ]
     },
     {
-      question: 'Comment approcher ce bug trop confiant ?',
-      message: 'Le bug sait ce qu’il a fait, il nous faut la preuve.',
-      options: ['Écrire le plus petit test qui échoue', 'Bisecter les changements récents', 'Ajouter de l’observabilité sur la frontière', 'L’expliquer à un canard en caoutchouc', 'Vider le cache avec dignité'],
+      "question": "Par où commencer l’enquête sur ce bug ?",
+      "message": "La loupe est facultative.",
+      "options": [
+        "Créer une reproduction minimale",
+        "Vérifier les changements récents",
+        "Ajouter des logs ciblés",
+        "Exposer l’affaire à un canard en plastique"
+      ]
     },
     {
-      question: 'Où la prochaine refactorisation doit-elle dépenser son courage ?',
-      message: 'Choisir un nœud, pas toute la pelote.',
-      options: ['Le module qui fait peur à tous', 'La règle métier dupliquée', 'La boucle de dev la plus lente', 'La couture de test la plus fragile'],
+      "question": "Quel petit nœud défaire dans le code ?",
+      "message": "Un nœud, pas tout le pull.",
+      "options": [
+        "Extraire une règle dupliquée",
+        "Renommer les variables floues",
+        "Découper une fonction trop longue",
+        "Tester un module fragile"
+      ]
     },
     {
-      question: 'Les tests sont verts, comment fêter ?',
-      message: 'Une build si verte mérite une mini-cérémonie.',
-      options: ['Déployer avant qu’ils se ravisent', 'Ajouter le test de régression manquant', 'Poster la capture terminal héroïque', 'Faire une marche de victoire', 'Nommer le bug que nous avons vaincu'],
+      "question": "Tests au vert : quelle petite fête ?",
+      "message": "Un tour d’honneur tout simple.",
+      "options": [
+        "Marcher cinq minutes",
+        "Préparer ma boisson préférée",
+        "Noter une ligne dans le carnet des victoires",
+        "Dessiner le bug vaincu"
+      ]
     },
     {
-      question: 'Quelle est la cause officielle du chaos d’aujourd’hui ?',
-      message: 'Le rapport d’incident cède parfois la place au folklore.',
-      options: ['Mercure fait la revue de code', 'Une feuille de calcul est devenue sensible', 'Quelqu’un a dit “sync rapide”', 'La plante du bureau a retiré son consentement', 'Mardi a dépassé ses permissions'],
+      "question": "Quelle explication farfelue pour ce chaos ?",
+      "message": "Réservé au rapport imaginaire.",
+      "options": [
+        "Les onglets ont fait la fête en secret",
+        "Mardi est arrivé sans mode d’emploi",
+        "Un tableur a appris l’impro",
+        "Le café est parti en quête secondaire"
+      ]
     },
     {
-      question: 'Quel titre dramatique donner à ce deadline ?',
-      message: 'S’il faut sprinter, faisons comme un vrai poster de film.',
-      options: ['Deadline : Impossible', 'Le Vif et le Curieux', 'Tout, partout, tout de suite (quasi)', 'Le Retour de la Dérive de Périmètre'],
+      "question": "Quel titre de film pour cette échéance ?",
+      "message": "Une grande voix de bande-annonce, zéro budget.",
+      "options": [
+        "Les cinq dernières minutes",
+        "Juste une toute petite retouche",
+        "Le retour du fichier disparu",
+        "Demain, c’était hier"
+      ]
     },
     {
-      question: 'Quelle rébellion douce peut se faire à 15h ?',
-      message: 'Faible enjeu, moral élevé, dénégation plausible.',
-      options: ['Renommer toutes les réunions “Le Rendez-vous”', 'Remplacer le jargon par des bruits d’animaux', 'Organiser une élection sérieuse des snacks', 'Porter des lunettes de soleil au point d’état'],
+      "question": "Quelle petite fantaisie pour cet après-midi ?",
+      "message": "Sans embarquer les collègues à leur insu.",
+      "options": [
+        "Donner un titre de film à mon carnet",
+        "Dessiner un monstre sur un brouillon",
+        "Décerner un prix au goûter sur un post-it",
+        "Écrire la météo de mon bureau"
+      ]
     },
     {
-      question: 'Quelle contrainte rendrait l’idée plus intéressante ?',
-      message: 'La créativité aime une clôture à décorer, escalader ou ignorer. ',
-      options: ['L’expliquer en six mots', 'Faire sans écran', 'Le concevoir pour une personne précise', 'N’utiliser que ce que nous avons', 'Rendre la partie ennuyeuse attachante'],
+      "question": "Quelle règle amusante donner à cette idée ?",
+      "message": "Une petite limite, une nouvelle porte.",
+      "options": [
+        "L’expliquer en six mots",
+        "N’utiliser que deux couleurs",
+        "Faire une version tout en papier",
+        "La faire tenir dans une poche"
+      ]
     },
     {
-      question: 'À quoi devrait commencer la scène d’ouverture ?',
-      message: 'Choisir une porte vers l’histoire et laisser la curiosité faire la lumière.',
-      options: ['Un objet au mauvais endroit', 'Une promesse déjà rompue', 'Une fête que personne n’explique', 'Un message venu de demain', 'Un silence où il devrait y avoir du bruit'],
+      "question": "Quelle scène ouvre cette petite histoire ?",
+      "message": "Un début, plein de possibles.",
+      "options": [
+        "Une clé qui n’ouvre rien",
+        "Un mot daté de demain",
+        "Une fête sans nom sur la liste des invités",
+        "Une sonnette sous l’eau"
+      ]
     },
     {
-      question: 'Quel ressenti doit avoir notre prochain prototype ?',
-      message: 'Une ambiance peut être une excellente exigence produit.',
-      options: ['Un outil malin de poche', 'Une pièce calme avec une bonne chaise', 'Un copilote malicieux', 'Un guide de terrain artisan', 'Une machine arcade adulte'],
-    },
+      "question": "Quelle ambiance essayer pour ce prototype ?",
+      "message": "Un ressenti pour un petit essai.",
+      "options": [
+        "Un coin lecture paisible",
+        "Une mini-salle d’arcade lumineuse",
+        "Un carnet de nature curieux",
+        "Une table de cuisine chaleureuse"
+      ]
+    }
   ],
-  ja: [
+  "ja": [
     {
-      question: 'メールだけで済んだはずの会議をどうやって救う？',
-      message: '主役顔なカレンダーに小さな介入を入れる。',
-      options: ['アジェンダを非同期ドキュメント化', '15分の決定ミーティングを追加', '中止して要点3つを送る'],
+      "question": "この会議、どうすれば早くエンディング？",
+      "message": "話す時間を少し減らして、午後を取り戻そう。",
+      "options": [
+        "共有メモに切り替える",
+        "決定だけの15分にする",
+        "中止して要点を3つ送る",
+        "同じ時間に各自で静かに作業する"
+      ]
     },
     {
-      question: '議事録を誰が担当する？',
-      message: 'どのチームでもアクションアイテム管理役は必要です。',
-      options: ['招集者', 'アルファベット順ローテーション', '最後に参加した人', 'サイコロに今日の記録係を決めてもらう'],
+      "question": "今回の議事録、どうやって担当を決める？",
+      "message": "大冒険より、まず記録。",
+      "options": [
+        "立候補を募る",
+        "持ち回りにする",
+        "主催者が書く",
+        "各自が自分の作業項目を書く"
+      ]
     },
     {
-      question: '来週にしたい「さりげない」金曜儀式は？',
-      message: '文化は繰り返される行動に、よいおやつを足したもの。',
-      options: ['5分デモショー', '小さな勝利表彰', 'アジェンダなしコーヒールーレット', '劇的なInbox Zeroカウントダウン'],
+      "question": "金曜に小さな楽しみを足すなら？",
+      "message": "このための会議は不要です。",
+      "options": [
+        "5分間のデモ会",
+        "一人ひとつ小さな成果を話す",
+        "みんなでおやつ休憩",
+        "会議を入れない1時間を作る"
+      ]
     },
     {
-      question: '今日の夕食はどう決める？',
-      message: '冷蔵庫は投票しない。',
-      options: ['自信満々の麺', 'ぎゅうぎゅうと楽しい餃子', '色どりご飯ボウル', '朝食を夜に食べる'],
+      "question": "今夜の幸せ、どのお皿にする？",
+      "message": "いつもの食事に、小さな展開を。",
+      "options": [
+        "ほっとする麺料理",
+        "ちょっと刺激のあるカレー",
+        "ずらりと並んだ餃子",
+        "朝ごはんメニューが夕食に登場"
+      ]
     },
     {
-      question: '次の20分をどう立て直す？',
-      message: '革命は不要、でも小さな転換で十分。',
-      options: ['目的なしで散歩する', '面倒な表面を一つ片づける', '10ページ読む', '会いたい人に電話する', '見栄えを気取った飲み物を作る'],
+      "question": "空いた20分、今日は何を足そう？",
+      "message": "人生を変えなくても、気分は変わる。",
+      "options": [
+        "近くをひと回り散歩",
+        "へたでも楽しい絵を描く",
+        "好きな本を数ページ読む",
+        "飲み物を丁寧に作る"
+      ]
     },
     {
-      question: '今日はどんな小さな冒険に出かける？',
-      message: 'ビザも冒険ノートも予選の予言も不要。',
-      options: ['近所でいちばん変なスナックを試す', '帰り道をぐるっと回る', 'いつも通る場所を立ち寄る', '偶然映る5つの顔を撮影'],
+      "question": "今日はどんな小さな寄り道？",
+      "message": "冒険はポケットサイズでもいい。",
+      "options": [
+        "近所の知らない道を歩く",
+        "手頃な新しいおやつを試す",
+        "見慣れた街角を描く",
+        "顔に見える物を5つ撮る"
+      ]
     },
     {
-      question: '最もフレッシュな頭で進めるべき作業は？',
-      message: 'サイコロで受信箱ノイズから最高の集中を守る。',
-      options: ['影響が一番大きい仕事', 'ずっと先送りしている仕事', '他者の進捗を止めるボトルネックを外す仕事', '最短で意味ある小さな成果'],
+      "question": "最初の25分、何に集中する？",
+      "message": "受信箱は少し待ってもらおう。",
+      "options": [
+        "今日のメイン作業を進める",
+        "誰かの作業を止めている連絡に返信",
+        "作業スペースを一角だけ片づける",
+        "便利な操作をひとつ覚える"
+      ]
     },
     {
-      question: 'このプロジェクトをランチ前に進めるには？',
-      message: '「家具のよう」に止まったプロジェクトに実用的な小突き。',
-      options: ['スコープを半分に縮小', '欠けている1つの決定を明示', '25分でペア作業', '最初は粗い版を出す', '静かな有識者に聞く'],
+      "question": "止まったプロジェクト、どこをひと押し？",
+      "message": "英雄的な救出より、小さな一歩。",
+      "options": [
+        "最初の目標を小さくする",
+        "未解決の問いを書き出す",
+        "25分だけ誰かと一緒に作業",
+        "ラフなデモを作る"
+      ]
     },
     {
-      question: '今週やめるべきことは？',
-      message: '戦略的な減法は、見栄えより効く。',
-      options: ['決定のない会議', '読まれないレポート', '広がり続ける依頼', '求められていない完璧化'],
+      "question": "今週、何の場所を少し空けよう？",
+      "message": "宣言より、ちょっとした余白。",
+      "options": [
+        "定例会議をひとつ短くする",
+        "使われていないレポートをやめる",
+        "メール確認を決まった時間だけにする",
+        "完成した原稿の磨き直しをやめる"
+      ]
     },
     {
-      question: '過信しているバグにどう向き合う？',
-      message: 'バグは自分がしたことを知っている。証拠が足りないだけ。',
-      options: ['最小失敗テストを書く', '最近の変更を二分探索', '境界周辺の可観測性を追加', 'ゴムのアヒルに説明', '少し格好よくキャッシュを消す'],
+      "question": "このバグ、捜査はどこから？",
+      "message": "虫眼鏡はなくても大丈夫。",
+      "options": [
+        "最小の再現例を作る",
+        "最近の変更を確認する",
+        "要所にログを追加する",
+        "ゴムのアヒルに事件を説明する"
+      ]
     },
     {
-      question: '次のリファクタはどこを任せるべき？',
-      message: '全部ではなく、ひとつの結び目だけほどく。',
-      options: ['皆が恐れるモジュール', '繰り返される業務ルール', '最も遅い開発ループ', '最も弱いテストの継ぎ目'],
+      "question": "次のリファクタリング、どの結び目から？",
+      "message": "セーター全部はほどかない。",
+      "options": [
+        "重複したルールをまとめる",
+        "曖昧な変数名を直す",
+        "長すぎる関数を分ける",
+        "壊れやすいモジュールにテストを足す"
+      ]
     },
     {
-      question: 'テストが全部通った。どう祝う？',
-      message: 'この“緑”には小さなリリース儀式が似合う。',
-      options: ['再検討される前に出す', '欠けていた回帰テストを追加', 'ヒーロー気分のターミナル画像を投稿', '勝利の散歩をする', '倒したバグに名前を付ける'],
+      "question": "テストが通った！小さなお祝いは？",
+      "message": "短いウイニングランでも十分。",
+      "options": [
+        "5分散歩する",
+        "好きな飲み物を作る",
+        "できたことノートに一行書く",
+        "倒したバグの絵を描く"
+      ]
     },
     {
-      question: '今日の混乱の公式原因は？',
-      message: '事故報告を伝承にしたくらいなら遊んでおく。',
-      options: ['水銀がコードレビュー中', 'スプレッドシートが自我を持った', '「クイック同期」と言った人', '窓際の植物が許可を取り消した', '火星が権限を超えていた'],
+      "question": "今日の混乱、架空の原因は何にする？",
+      "message": "もちろん、空想の報告書用。",
+      "options": [
+        "タブが内緒でパーティーをした",
+        "火曜日に説明書が付いていなかった",
+        "表計算が即興劇を覚えた",
+        "コーヒーが寄り道クエストに出た"
+      ]
     },
     {
-      question: 'この締切にふさわしい劇タイトルは？',
-      message: 'スプリントするなら、映画ポスターは作る。',
-      options: ['デッドライン：インポッシブル', 'ファストとキュリアス', 'エブリースペース・エブリ・アウェイ', 'スコープクリープ復活'],
+      "question": "この締め切り、映画にするなら？",
+      "message": "予告編は壮大、予算は控えめ。",
+      "options": [
+        "最後の5分間",
+        "あとひとつだけ修正",
+        "消えたファイルの帰還",
+        "明日は昨日だった"
+      ]
     },
     {
-      question: '午後3時にだけ許される小さな反乱は？',
-      message: 'リスク低め・士気高めの合理的な逸脱。',
-      options: ['全会議を「Gathering」にリネーム', '専門用語を動物音に変更', '正式なおやつ選挙を実施', 'ステータスコールでサングラスを着用'],
+      "question": "午後にちょっと遊ぶなら？",
+      "message": "同僚を巻き込まず、自分で楽しもう。",
+      "options": [
+        "自分のノートに映画風の名前を付ける",
+        "裏紙に小さな怪獣を描く",
+        "メモでおやつに賞を贈る",
+        "自分の机の天気予報を書く"
+      ]
     },
     {
-      question: 'どの制約がこのアイデアを面白くする？',
-      message: 'クリエイティビティは越えても越えられないフェンスが好き。',
-      options: ['六語で説明する', '画面なしで成立させる', '特定の一人向けに設計', '既存素材だけで作る', '退屈な部分を楽しくする'],
+      "question": "このアイデア、どんな遊びのルールで試す？",
+      "message": "小さな制限が、新しい扉に。",
+      "options": [
+        "6つの言葉で説明する",
+        "2色だけ使う",
+        "紙だけの版を作る",
+        "ポケットに収まる形にする"
+      ]
     },
     {
-      question: 'オープニングシーンは何で始める？',
-      message: '物語の入口を置けば、好奇心が照明になる。',
-      options: ['ずれた場所の小物', 'すでに破られた約束', '誰も理解しない祝祭', '明日からのメッセージ', '雑音があるはずの静けさ'],
+      "question": "この物語、最初の一場面は？",
+      "message": "ひとつの始まりから広がる話。",
+      "options": [
+        "何も開けられない鍵",
+        "明日の日付のメモ",
+        "招待客リストが空のパーティー",
+        "水中で鳴る呼び鈴"
+      ]
     },
     {
-      question: '次のプロトタイプはどんな感触がいい？',
-      message: '空気感は、意外と強い要件です。',
-      options: ['賢いポケットツール', '静かな部屋と良い椅子', 'いたずら好きな相棒', '手作りの野帳', '大人向けアーケード端末'],
-    },
+      "question": "次の試作品、どんな雰囲気にする？",
+      "message": "小さな実験に、ひとつの気分を。",
+      "options": [
+        "静かな読書コーナー",
+        "明るい小さなゲームセンター",
+        "好奇心いっぱいの自然観察ノート",
+        "温かなキッチンのテーブル"
+      ]
+    }
   ],
-  ko: [
+  "ko": [
     {
-      question: '메일로 끝낼 수 있었던 회의는 어떻게 구출할까?',
-      message: '주인공 모드로 돌아가는 일정표를 한 번 제동 건다.',
-      options: ['아젠다를 비동기 문서로 바꾸기', '15분 결정 회의로 바꾸기', '취소하고 핵심 문장 3개로 정리하기'],
+      "question": "이 회의, 엔딩을 좀 앞당길까요?",
+      "message": "말은 조금 줄이고 오후는 돌려받아요.",
+      "options": [
+        "공유 문서로 대신하기",
+        "결정만 하는 15분 회의로 줄이기",
+        "취소하고 핵심 세 줄 보내기",
+        "같은 시간에 각자 조용히 일하기"
+      ]
     },
     {
-      question: '회의록은 누가 맡을까?',
-      message: '모든 팀에는 실행 항목을 챙기는 사람이 필요합니다.',
-      options: ['예약한 사람', '알파벳 순서로 순환', '마지막 참가자', '주사위가 오늘 기록자를 뽑게 하기'],
+      "question": "이번 회의록은 어떻게 맡길까요?",
+      "message": "모험 말고, 중요한 것만 기록해요.",
+      "options": [
+        "자원자 구하기",
+        "순번대로 맡기기",
+        "회의 주최자가 쓰기",
+        "각자 자기 할 일 기록하기"
+      ]
     },
     {
-      question: '이번 주 금요일의 비공식 의식으로 뭘 정할까?',
-      message: '문화는 반복되는 행동에 간식이 더해진 형태입니다.',
-      options: ['5분 데모 퍼레이드', '작은 승리 시상', '안건 없는 커피 룰렛', '드라마틱한 inbox zero 카운트다운'],
+      "question": "금요일에 어떤 작은 재미를 더할까요?",
+      "message": "이걸 위한 회의는 필요 없어요.",
+      "options": [
+        "5분 시연 시간",
+        "각자 작은 성과 하나 나누기",
+        "함께 간식 먹기",
+        "회의 없는 한 시간 만들기"
+      ]
     },
     {
-      question: '오늘 저녁 메뉴는 누가 고를까?',
-      message: '주방 캐비닛은 이번 투표에서 빠졌습니다.',
-      options: ['대단히 당당한 면 요리', '접힌 행복이 있는 만두', '색다른 볶음밥', '저녁을 아침으로 먹기'],
+      "question": "오늘 저녁 행복은 어느 접시에?",
+      "message": "한 끼에도 작은 반전은 있어요.",
+      "options": [
+        "따끈한 국수 한 그릇",
+        "살짝 매콤한 카레",
+        "나란히 모인 만두",
+        "아침 메뉴의 저녁 특별 출연"
+      ]
     },
     {
-      question: '앞으로 20분을 어떻게 회복할까?',
-      message: '재생산은 필요 없고, 작은 반전은 가능합니다.',
-      options: ['목적지 없이 걷기', '성가신 표면 하나 정리', '10페이지 읽기', '그리운 사람에게 전화', '특별히 멋진 음료 만들기'],
+      "question": "20분이 비었어요. 뭘 더해 볼까요?",
+      "message": "인생 개조 말고, 기분 전환 정도로.",
+      "options": [
+        "밖에 나가 한 바퀴 걷기",
+        "못 그려도 즐거운 그림 그리기",
+        "재미로 책 몇 쪽 읽기",
+        "음료 한 잔 정성껏 만들기"
+      ]
     },
     {
-      question: '오늘 할 미니 모험은?',
-      message: '여권도 임무표도 영웅 예언도 필요 없다.',
-      options: ['가장 이상한 간식 시도', '집으로 돌아가는 길 늘리기', '늘 스쳐 지나가는 곳 들르기', '우연히 찍힌 얼굴 5장 남기기'],
+      "question": "오늘은 어떤 작은 샛길로 갈까요?",
+      "message": "주머니만 한 모험도 모험이죠.",
+      "options": [
+        "근처 낯선 골목 걷기",
+        "저렴한 새 간식 맛보기",
+        "익숙한 거리 한쪽 그리기",
+        "얼굴처럼 보이는 물건 다섯 개 찍기"
+      ]
     },
     {
-      question: '가장 맑은 뇌를 어디에 써야 하나?',
-      message: '주사위에게 핵심 집중력을 인박스 소음에서 지켜달라고 맡긴다.',
-      options: ['영향도가 큰 일', '계속 미루는 일', '다른 사람을 풀어주는 일', '가장 작은 의미 있는 성과'],
+      "question": "첫 25분의 집중력을 어디에 쓸까요?",
+      "message": "메일함은 잠시 기다려도 돼요.",
+      "options": [
+        "오늘의 주요 작업 진행하기",
+        "누군가를 기다리게 한 메시지에 답하기",
+        "작업 공간 한쪽만 정리하기",
+        "유용한 조작법 하나 배우기"
+      ]
     },
     {
-      question: '점심 전 프로젝트를 풀기 위해선 어떻게 할까?',
-      message: '가구처럼 굳은 프로젝트엔 실용적인 밀어주기가 필요하다.',
-      options: ['범위를 절반으로 축소', '누락된 한 가지 결정을 명시', '25분 페어 작업', '거친 1차 버전 먼저 출시', '조용한 전문가에게 묻기'],
+      "question": "멈춘 프로젝트, 어디부터 살짝 밀까요?",
+      "message": "영웅적인 구출 말고 한 걸음만.",
+      "options": [
+        "첫 목표를 작게 줄이기",
+        "답이 없는 질문을 적기",
+        "누군가와 25분 함께 작업하기",
+        "거친 데모 만들기"
+      ]
     },
     {
-      question: '이번 주에는 무엇을 정중히 그만둘까?',
-      message: '전략적 빼기: 생산성의 덜 화려한 쌍둥이',
-      options: ['결정 없는 회의', '누구도 읽지 않는 보고서', '확장만 되는 부탁', '요청되지 않은 마감 손질'],
+      "question": "이번 주엔 무엇에 자리를 덜 내줄까요?",
+      "message": "거창한 선언 없이 여유를 만들어요.",
+      "options": [
+        "정기 회의 하나 줄이기",
+        "쓰이지 않는 보고서 하나 그만두기",
+        "정해진 시간에만 메일 확인하기",
+        "완성된 초안 다듬기 멈추기"
+      ]
     },
     {
-      question: '이것보다 자신만만한 버그는 어떻게 다룰까?',
-      message: '버그는 자기가 한 일을 안다. 증거만 있으면 된다.',
-      options: ['가장 작은 실패 테스트 작성', '최근 변경 내역을 이분 탐색', '경계 주변 관측성 추가', '고무 오리에게 설명하기', '기품 있게 캐시 삭제'],
+      "question": "이 버그 수사, 어디서 시작할까요?",
+      "message": "돋보기는 없어도 괜찮아요.",
+      "options": [
+        "최소 재현 만들기",
+        "최근 변경 확인하기",
+        "핵심 로그 추가하기",
+        "고무 오리에게 사건 설명하기"
+      ]
     },
     {
-      question: '다음 리팩터링은 어디에 용기 쓰지?',
-      message: '줄 전체를 벼리지는 말고 한 매듭만 풀어야 한다.',
-      options: ['모두가 두려워하는 모듈', '중복된 비즈니스 규칙', '느린 개발 루프', '가장 약한 테스트 경계'],
+      "question": "이번 리팩터링은 어느 매듭부터?",
+      "message": "스웨터 전체를 풀지는 말아요.",
+      "options": [
+        "중복 규칙 하나 추출하기",
+        "모호한 변수 이름 바꾸기",
+        "너무 긴 함수 하나 나누기",
+        "불안한 모듈 하나에 테스트 추가하기"
+      ]
     },
     {
-      question: '테스트가 초록색이 됐다. 어떻게 축하할까?',
-      message: '이만큼 초록인 빌드는 미니 릴리스식 축하가 어울린다.',
-      options: ['그들이 바뀌기 전에 배포', '빠진 회귀 테스트 추가', '영웅적인 터미널 스샷 게시', '승리 산책', '이긴 버그에게 이름 붙이기'],
+      "question": "테스트 통과! 작게 어떻게 축하할까요?",
+      "message": "우승 세리머니도 짧고 달콤하게.",
+      "options": [
+        "5분 산책하기",
+        "좋아하는 음료 만들기",
+        "성과 노트에 한 줄 쓰기",
+        "잡은 버그 그림 그리기"
+      ]
     },
     {
-      question: '오늘 혼란의 공식 원인은?',
-      message: '사고 보고서 대신 전설을 써도 되는 날이다.',
-      options: ['수은이 코드 리뷰 중', '스프레드시트가 자아를 가짐', '누군가 “빠른 동기화”라고 말함', '사무실 화분이 동의를 취소', '화요일이 권한을 초과'],
+      "question": "오늘의 혼란에 어떤 엉뚱한 이유를 붙일까요?",
+      "message": "가상의 보고서에만 써 주세요.",
+      "options": [
+        "탭들이 몰래 파티를 열었다",
+        "화요일에 설명서가 없었다",
+        "스프레드시트가 즉흥극을 배웠다",
+        "커피가 곁가지 모험을 떠났다"
+      ]
     },
     {
-      question: '이 마감시간에 맞는 제목은?',
-      message: '스프린트가 필요하면 영화 포스터라도 만들자.',
-      options: ['마감: 불가능', '빠르고 호기심 많은 이야기', '모든 곳 모든 곳 모두 한 번에', '범위 크리프의 귀환'],
+      "question": "이번 마감의 영화 제목은?",
+      "message": "예고편 목소리는 웅장하게, 예산은 작게.",
+      "options": [
+        "마지막 5분",
+        "딱 하나만 더 수정",
+        "사라진 파일의 귀환",
+        "내일은 어제였다"
+      ]
     },
     {
-      question: '오후 3시에 할 수 있는 가벼운 반란은?',
-      message: '위험은 낮고 사기는 높고 변명은 깔끔하다.',
-      options: ['모든 회의명을 “모임”으로 변경', '전문 용어를 동물 울음소리로 대체', '공식 스낵 투표 실시', '상태 보고에 선글라스 착용'],
+      "question": "오후에 어떤 무해한 장난을 해볼까요?",
+      "message": "동료는 끌어들이지 않고 혼자 즐겨요.",
+      "options": [
+        "내 노트에 영화 제목 붙이기",
+        "이면지에 작은 괴물 그리기",
+        "내 메모에 간식 시상식 적기",
+        "내 책상의 날씨 예보 쓰기"
+      ]
     },
     {
-      question: '이 아이디어를 더 흥미롭게 할 제약은?',
-      message: '창의성은 장식하고 넘거나 대놓고 무시할 울타리와 잘 맞는다.',
-      options: ['6단어로 설명', '화면 없이 동작', '한 명의 구체적 인물에 맞춤', '이미 있는 것만 사용', '지루한 부분을 더 매력적으로'],
+      "question": "이 아이디어에 어떤 재미있는 규칙을 붙일까요?",
+      "message": "작은 제한이 새 길을 열기도 해요.",
+      "options": [
+        "여섯 단어로 설명하기",
+        "두 가지 색만 쓰기",
+        "종이로만 버전 만들기",
+        "주머니에 들어가게 만들기"
+      ]
     },
     {
-      question: '오프닝 신은 무엇으로 시작할까?',
-      message: '이야기의 문을 하나 열어두면 호기심이 조명을 만든다.',
-      options: ['잘못된 위치의 물건', '이미 깨진 약속', '의미 모를 축하', '내일에서 온 메시지', '소음이 있어야 할 자리의 침묵'],
+      "question": "이 작은 이야기의 첫 장면은?",
+      "message": "시작은 하나, 가능성은 여러 가지.",
+      "options": [
+        "아무것도 열지 못하는 열쇠",
+        "내일 날짜가 적힌 쪽지",
+        "초대 명단이 빈 파티",
+        "물속에서 울리는 초인종"
+      ]
     },
     {
-      question: '다음 프로토타입의 감성은?',
-      message: '무드 자체가 꽤 유용한 제품 요구사항이 될 수 있다.',
-      options: ['영리한 포켓 도구', '한 대의 좋은 의자가 있는 조용한 방', '장난스러운 코-파일럿', '수제 야외 가이드', '어른을 위한 아케이드 기기'],
-    },
+      "question": "다음 시제품은 어떤 분위기로?",
+      "message": "작은 실험에 느낌 하나를 골라요.",
+      "options": [
+        "차분한 독서 공간",
+        "밝은 작은 오락실",
+        "호기심 가득한 자연 관찰 노트",
+        "포근한 부엌 식탁"
+      ]
+    }
   ],
-  es: [
+  "es": [
     {
-      question: '¿Cómo rescatar una reunión que debería haber sido un correo?',
-      message: 'Una pequeña intervención para un calendario con ego de protagonista.',
-      options: ['Convertir la agenda en un documento async', 'Hacer una mini-reunión de decisión de 15 minutos', 'Cancelarla y enviar tres ideas concretas'],
+      "question": "¿Cómo acortamos el final de esta reunión?",
+      "message": "Menos charla, más tarde libre.",
+      "options": [
+        "Cambiarla por una nota compartida",
+        "Dejar 15 minutos para decidir",
+        "Cancelar y enviar tres puntos clave",
+        "Usar ese rato para trabajar en silencio"
+      ]
     },
     {
-      question: '¿Quién se encarga de las notas de la reunión?',
-      message: 'Toda misión necesita a alguien que guarde acciones.',
-      options: ['La persona que la reservó', 'Rotar por orden alfabético', 'La persona que se unió al final', 'Dejar que los dados nombren al redactor de hoy'],
+      "question": "¿Cómo elegimos quién toma notas?",
+      "message": "Hace falta un nombre, no una misión épica.",
+      "options": [
+        "Pedir una persona voluntaria",
+        "Seguir un turno rotativo",
+        "Que escriba quien convocó",
+        "Que cada cual anote sus propias tareas"
+      ]
     },
     {
-      question: '¿Qué debería ser nuestro ritual informal de los viernes?',
-      message: 'La cultura es comportamiento repetido con mejores bocadillos.',
-      options: ['Desfile de demo de 5 minutos', 'Premios de micro logros', 'Ruleta de café sin agenda', 'Cuenta regresiva dramática de inbox zero'],
+      "question": "¿Qué pequeño ritual probamos el viernes?",
+      "message": "Sin crear un comité.",
+      "options": [
+        "Cinco minutos de demos",
+        "Una pequeña victoria por persona",
+        "Una pausa para merendar juntos",
+        "Una hora sin reuniones"
+      ]
     },
     {
-      question: '¿Quién decide la cena de esta noche?',
-      message: 'El armario no participa en la votación.',
-      options: ['Fideos con confianza absurda', 'Dumplings, porque la alegría tiene capas', 'Un bol de arroz colorido', 'Cenar a modo desayuno'],
+      "question": "¿Qué felicidad ponemos en el plato esta noche?",
+      "message": "Una cena, cuatro pequeños giros.",
+      "options": [
+        "Un cuenco de fideos calentitos",
+        "Curry con un toque picante",
+        "Empanadillas en formación",
+        "Desayuno de invitado en la cena"
+      ]
     },
     {
-      question: '¿Cómo rescatar los próximos 20 minutos?',
-      message: 'No hay tiempo para reinventar, pero sí para un pequeño giro.',
-      options: ['Caminar sin destino', 'Limpiar una superficie molesta', 'Leer diez páginas', 'Llamar a alguien que extrañas', 'Preparar una bebida de lujo sospechosa'],
+      "question": "Veinte minutos libres: ¿qué le añadimos al día?",
+      "message": "No hace falta reinventarse.",
+      "options": [
+        "Dar un paseo corto",
+        "Hacer un dibujo felizmente torcido",
+        "Leer unas páginas por gusto",
+        "Preparar una bebida con mimo"
+      ]
     },
     {
-      question: '¿Qué pequeña aventura hacer hoy?',
-      message: 'Sin pasaporte, bitácora ni profecía del elegido.',
-      options: ['Probar el aperitivo más raro cerca', 'Volver por ruta larga', 'Visitar un lugar que siempre cruzas', 'Foto de cinco caras accidentales'],
+      "question": "¿Qué pequeño desvío probamos hoy?",
+      "message": "Aventura de bolsillo.",
+      "options": [
+        "Pasear por una calle cercana desconocida",
+        "Probar un aperitivo nuevo y barato",
+        "Dibujar una esquina conocida",
+        "Fotografiar cinco objetos que parezcan caras"
+      ]
     },
     {
-      question: '¿Qué tarea merece mi mente más fresca?',
-      message: 'Que los dados protejan tu mejor atención del confeti de bandeja.',
-      options: ['La tarea con mayor consecuencia', 'La tarea que sigo evitando', 'La tarea que desbloquea a alguien', 'La victoria mínima y significativa'],
+      "question": "¿A qué regalamos 25 minutos de atención?",
+      "message": "La bandeja de entrada puede esperar.",
+      "options": [
+        "Avanzar en mi tarea principal",
+        "Responder un mensaje que bloquea a alguien",
+        "Ordenar un rincón de trabajo",
+        "Aprender un atajo útil"
+      ]
     },
     {
-      question: '¿Cómo destrabar este proyecto antes de comer?',
-      message: 'Un empujón práctico para un proyecto que hoy parece mueble.',
-      options: ['Reducir el alcance a la mitad', 'Nombrar la decisión faltante', 'Parear por 25 minutos', 'Entregar una primera versión imperfecta', 'Preguntarle al experto más silencioso'],
+      "question": "¿Por dónde damos un empujoncito al proyecto?",
+      "message": "Un paso, no un rescate heroico.",
+      "options": [
+        "Reducir el primer objetivo",
+        "Escribir la pregunta sin resolver",
+        "Trabajar en pareja 25 minutos",
+        "Crear una demo sencilla"
+      ]
     },
     {
-      question: '¿Qué debería dejar de hacer esta semana?',
-      message: 'Resta estratégica: la productividad, su primo menos fotogénico.',
-      options: ['Una reunión sin decisión', 'Un informe que nadie lee', 'Un favor que nunca para de crecer', 'Una revisión de perfección no solicitada'],
+      "question": "¿Qué ocupará menos espacio esta semana?",
+      "message": "Hacer sitio sin dar un discurso.",
+      "options": [
+        "Acortar una reunión periódica",
+        "Dejar un informe que nadie usa",
+        "Mirar el correo a horas fijas",
+        "Dejar de retocar un borrador terminado"
+      ]
     },
     {
-      question: '¿Cómo abordar este bug sospechosamente confiado?',
-      message: 'El bug sabe lo que hizo. Nos faltan pruebas.',
-      options: ['Escribir la prueba mínima fallida', 'Bisecar cambios recientes', 'Añadir observabilidad en el límite', 'Explicarlo a un pato de goma', 'Borrar caché con dignidad'],
+      "question": "¿Por dónde investigamos este bug?",
+      "message": "La lupa es opcional.",
+      "options": [
+        "Crear una reproducción mínima",
+        "Revisar los cambios recientes",
+        "Añadir registros en puntos clave",
+        "Contarle el caso a un patito de goma"
+      ]
     },
     {
-      question: '¿Dónde debería gastar su valor la próxima refactor?',
-      message: 'Ataca un nudo, no toda la madeja.',
-      options: ['El módulo que todos temen', 'La regla de negocio duplicada', 'El ciclo de desarrollo más lento', 'La costura de test más débil'],
+      "question": "¿Qué pequeño nudo del código desatamos?",
+      "message": "Un nudo, no todo el jersey.",
+      "options": [
+        "Extraer una regla duplicada",
+        "Renombrar variables poco claras",
+        "Dividir una función enorme",
+        "Añadir pruebas a un módulo frágil"
+      ]
     },
     {
-      question: 'Las pruebas ya son verdes. ¿Cómo celebrar?',
-      message: 'Una build tan verde merece pequeña ceremonia de entrega.',
-      options: ['Publicar antes de que vuelvan a cambiarlo', 'Añadir la prueba de regresión que faltaba', 'Subir captura terminal heroica', 'Dar un paseo triunfal', 'Nombrar el bug que vencimos'],
+      "question": "¡Pruebas en verde! ¿Cómo lo celebramos?",
+      "message": "Una vuelta de honor cortita.",
+      "options": [
+        "Pasear cinco minutos",
+        "Preparar mi bebida favorita",
+        "Escribir una línea en el diario de logros",
+        "Dibujar el bug derrotado"
+      ]
     },
     {
-      question: '¿Cuál es la causa oficial del caos de hoy?',
-      message: 'Donde el reporte de incidente pasa a ser folclore.',
-      options: ['El mercurio está revisando código', 'Una hoja de cálculo se volvió consciente', 'Alguien dijo “sync rápido”', 'La planta de la oficina revocó el consentimiento', 'El martes excedió sus permisos'],
+      "question": "¿Qué explicación absurda damos al caos de hoy?",
+      "message": "Solo para el informe imaginario.",
+      "options": [
+        "Las pestañas montaron una fiesta secreta",
+        "El martes llegó sin instrucciones",
+        "Una hoja de cálculo aprendió improvisación",
+        "El café se fue de misión secundaria"
+      ]
     },
     {
-      question: '¿Qué título dramático se merece este deadline?',
-      message: 'Si hay que esprintar, al menos hagámoslo con cartel de película.',
-      options: ['Deadline: Imposible', 'El rápido y curioso', 'Todo, por todas partes y a la vez', 'El regreso del scope creep'],
+      "question": "¿Qué título de película merece esta fecha límite?",
+      "message": "Voz de tráiler grande, presupuesto pequeño.",
+      "options": [
+        "Los últimos cinco minutos",
+        "Solo un pequeño cambio más",
+        "El regreso del archivo perdido",
+        "Mañana fue ayer"
+      ]
     },
     {
-      question: '¿Qué pequeña rebelión inofensiva ocurre a las 3 p.m.?',
-      message: 'Baja apuesta. Alto ánimo. Negación plausible.',
-      options: ['Renombrar cada reunión “La reunión”', 'Reemplazar jerga por ruidos de animales', 'Hacer una elección formal de snacks', 'Ponerse gafas de sol en la llamada de estado'],
+      "question": "¿Qué tontería inofensiva cabe esta tarde?",
+      "message": "Sin meter a los compañeros en el lío.",
+      "options": [
+        "Ponerle título de película a mi cuaderno",
+        "Dibujar un monstruito en papel usado",
+        "Inventar un premio para la merienda en una nota",
+        "Escribir el parte meteorológico de mi escritorio"
+      ]
     },
     {
-      question: '¿Qué restricción volvería esta idea más interesante?',
-      message: 'La creatividad disfruta de una cerca que puede decorar, trepar o ignorar.',
-      options: ['Explicarla en seis palabras', 'Hacerla sin pantalla', 'Diseñarla para una persona muy concreta', 'Usar solo lo que ya existe', 'Hacer la parte aburrida más linda'],
+      "question": "¿Qué regla divertida le ponemos a esta idea?",
+      "message": "Un límite pequeño puede abrir una puerta.",
+      "options": [
+        "Explicarla en seis palabras",
+        "Usar solo dos colores",
+        "Hacer una versión solo de papel",
+        "Hacer que quepa en un bolsillo"
+      ]
     },
     {
-      question: '¿Con qué debería empezar la escena inicial?',
-      message: 'Elige una puerta en la historia y deja que la curiosidad ilumine.',
-      options: ['Un objeto en el lugar equivocado', 'Una promesa ya rota', 'Una celebración que nadie entiende', 'Un mensaje desde mañana', 'Silencio donde debería haber ruido'],
+      "question": "¿Qué escena abre esta pequeña historia?",
+      "message": "Un comienzo, muchas posibilidades.",
+      "options": [
+        "Una llave que no abre nada",
+        "Una nota con fecha de mañana",
+        "Una fiesta con lista de invitados vacía",
+        "Un timbre sonando bajo el agua"
+      ]
     },
     {
-      question: '¿Cómo debería sentirse nuestro próximo prototipo?',
-      message: 'El tono puede ser un requisito de producto sorprendentemente útil.',
-      options: ['Una herramienta ingeniosa de bolsillo', 'Una sala tranquila con una buena silla', 'Un copiloto travieso', 'Una guía de campo hecha a mano', 'Una máquina arcade para adultos'],
-    },
+      "question": "¿Qué ambiente probamos en este prototipo?",
+      "message": "Una sensación para un pequeño experimento.",
+      "options": [
+        "Un rincón tranquilo de lectura",
+        "Una pequeña sala recreativa luminosa",
+        "Un curioso cuaderno de naturaleza",
+        "Una acogedora mesa de cocina"
+      ]
+    }
   ],
-  de: [
+  "de": [
     {
-      question: 'Wie retten wir eine Besprechung, die eine E-Mail hätte sein sollen?',
-      message: 'Ein kleiner Eingriff für einen Kalender mit Hauptdarsteller-Ambitionen.',
-      options: ['Die Tagesordnung in eine Async-Doku umwandeln', 'Ein 15-Minuten-Entscheidungs-Huddle starten', 'Abbrechen und drei prägnante Punkte senden'],
+      "question": "Wie bekommt dieses Meeting ein kürzeres Ende?",
+      "message": "Weniger reden, mehr Nachmittag.",
+      "options": [
+        "Durch eine gemeinsame Notiz ersetzen",
+        "Auf 15 Minuten zum Entscheiden kürzen",
+        "Absagen und drei Kernpunkte schicken",
+        "Die Zeit für stilles Arbeiten nutzen"
+      ]
     },
     {
-      question: 'Wer übernimmt die Protokollführung?',
-      message: 'Jede Zusammenarbeit braucht einen Hüter der nächsten Schritte.',
-      options: ['Die Person, die den Termin erstellt hat', 'Alphabetisch rotieren', 'Die zuletzt beigetretene Person', 'Die Würfel bestimmen heute den Protokollanten'],
+      "question": "Wie bestimmen wir, wer heute mitschreibt?",
+      "message": "Notizen brauchen keinen epischen Auftrag.",
+      "options": [
+        "Nach Freiwilligen fragen",
+        "Reihum wechseln",
+        "Die einladende Person schreibt mit",
+        "Alle notieren ihre eigenen Aufgaben"
+      ]
     },
     {
-      question: 'Welche inoffizielle Freitagstradition passt zu uns?',
-      message: 'Kultur ist Verhalten, das öfter passiert – mit besseren Snacks.',
-      options: ['Fünf-Minuten-Demo-Parade', 'Mini-Win-Auszeichnungen', 'Kaffee-Roulette ohne Agenda', 'Dramatischer Inbox-Zero-Countdown'],
+      "question": "Welches kleine Freitagsritual probieren wir?",
+      "message": "Dafür braucht es kein Komitee.",
+      "options": [
+        "Fünf Minuten Demos",
+        "Alle erzählen einen kleinen Erfolg",
+        "Eine gemeinsame Snackpause",
+        "Eine Stunde ohne Meetings"
+      ]
     },
     {
-      question: 'Wer gewinnt heute den Abend für das Abendessen?',
-      message: 'Das Küchenregal hat sich bei der Abstimmung zurückgezogen.',
-      options: ['Nudeln mit schrägem Selbstvertrauen', 'Dumplings, weil Freude Falten hat', 'Eine bunte Reisschale', 'Frühstück für den Abend'],
+      "question": "Was kommt heute als Glück auf den Teller?",
+      "message": "Ein Essen, vier kleine Wendungen.",
+      "options": [
+        "Eine warme Schüssel Nudeln",
+        "Curry mit etwas Schwung",
+        "Teigtaschen in Reih und Glied",
+        "Frühstück mit Gastauftritt am Abend"
+      ]
     },
     {
-      question: 'Wie retten wir die nächsten 20 Minuten?',
-      message: 'Nicht genug Zeit für eine Neuinterpretation, genug für eine kleine Wendung.',
-      options: ['Ohne Ziel spazieren gehen', 'Eine lästige Oberfläche aufräumen', 'Zehn Seiten lesen', 'Jemanden anrufen, der fehlt', 'Ein verdächtig edles Getränk mixen'],
+      "question": "Zwanzig freie Minuten: Was machen wir daraus?",
+      "message": "Kein neues Leben nötig.",
+      "options": [
+        "Eine kleine Runde spazieren",
+        "Etwas fröhlich Schiefes zeichnen",
+        "Ein paar Seiten zum Spaß lesen",
+        "Ein Getränk mit Sorgfalt zubereiten"
+      ]
     },
     {
-      question: ' Welches Mini-Abenteuer heute?',
-      message: 'Kein Pass, kein Quest-Log und keine Auserwählten-Prophesie.',
-      options: ['Den seltsamsten Snack in der Umgebung probieren', 'Den Heimweg verlängern', 'Einen Ort besuchen, den du immer passierst', 'Fünf zufällige Gesichter fotografieren'],
+      "question": "Welchen kleinen Umweg probieren wir heute?",
+      "message": "Abenteuer im Taschenformat.",
+      "options": [
+        "Eine unbekannte Straße in der Nähe nehmen",
+        "Einen günstigen neuen Snack probieren",
+        "Eine vertraute Ecke zeichnen",
+        "Fünf Dinge fotografieren, die wie Gesichter aussehen"
+      ]
     },
     {
-      question: 'Welche Aufgabe verdient mein klarstes Denken?',
-      message: 'Lass die Würfel deine beste Aufmerksamkeit vor dem Posteingangskonfetti schützen.',
-      options: ['Aufgabe mit größter Konsequenz', 'Aufgabe, die ich vermeide', 'Aufgabe, die jemanden entblockt', 'Kleinster sinnvoller Fortschritt'],
+      "question": "Was bekommt zuerst 25 Minuten Aufmerksamkeit?",
+      "message": "Der Posteingang kann warten.",
+      "options": [
+        "An meiner Hauptaufgabe arbeiten",
+        "Eine Nachricht beantworten, auf die jemand wartet",
+        "Eine kleine Arbeitsecke aufräumen",
+        "Einen nützlichen Kurzbefehl lernen"
+      ]
     },
     {
-      question: 'Wie bringen wir dieses Projekt vor dem Mittag voran?',
-      message: 'Ein praktischer Schubs für ein Projekt, das wie Möbel steht.',
-      options: ['Den Umfang halbieren', 'Die eine fehlende Entscheidung benennen', '25 Minuten zusammenarbeiten', 'Eine unfertige erste Portion liefern', 'Die stillste Expertin oder den stillsten Experten fragen'],
+      "question": "Wo schubsen wir dieses Projekt ein Stück weiter?",
+      "message": "Ein kleiner Schubs, keine Heldentat.",
+      "options": [
+        "Das erste Etappenziel verkleinern",
+        "Die offene Frage aufschreiben",
+        "25 Minuten zu zweit arbeiten",
+        "Eine grobe Demo bauen"
+      ]
     },
     {
-      question: 'Was sollte ich diese Woche höflich stoppen?',
-      message: 'Strategisches Wegnehmen: Produktivität im praktischen Modus.',
-      options: ['Ein Meeting ohne Entscheidung', 'Einen nie gelesenen Bericht', 'Ein Gefallen, der weiterwächst', 'Einen Perfektionismusgang ohne Aufforderung'],
+      "question": "Was bekommt diese Woche weniger Platz?",
+      "message": "Freiraum schaffen, ohne große Rede.",
+      "options": [
+        "Ein regelmäßiges Meeting kürzen",
+        "Einen ungenutzten Bericht streichen",
+        "E-Mails nur zu festen Zeiten prüfen",
+        "Einen fertigen Entwurf nicht weiter polieren"
+      ]
     },
     {
-      question: 'Wie gehen wir mit diesem überheblichen Bug um?',
-      message: 'Der Bug weiß, was er getan hat. Uns fehlt nur noch Beweis.',
-      options: ['Den kleinsten fehlgeschlagenen Test schreiben', 'Letzte Änderungen bis zur Mitte reduzieren', 'Observability an der Grenze ergänzen', 'Dem Gummienten erklären', 'Den Cache mit Würde löschen'],
+      "question": "Wo beginnt die Ermittlung zu diesem Bug?",
+      "message": "Die Lupe ist optional.",
+      "options": [
+        "Ein minimales Beispiel nachstellen",
+        "Letzte Änderungen prüfen",
+        "Gezielte Logs ergänzen",
+        "Einer Gummiente den Fall schildern"
+      ]
     },
     {
-      question: 'Wo sollte das nächste Refactoring seinen Mut einsetzen?',
-      message: 'Knüpfe einen Knoten, nicht den ganzen Wollknäuel.',
-      options: ['Das Modul, das alle fürchten', 'Die doppelte Geschäftsregel', 'Die langsamste Entwickler-Schleife', 'Die schwächste Testnaht'],
+      "question": "Welchen kleinen Code-Knoten lösen wir zuerst?",
+      "message": "Einen Knoten, nicht den ganzen Pullover.",
+      "options": [
+        "Eine doppelte Regel zusammenführen",
+        "Unklare Variablen umbenennen",
+        "Eine zu große Funktion aufteilen",
+        "Tests für ein fragiles Modul ergänzen"
+      ]
     },
     {
-      question: 'Die Tests sind grün. Wie feiern wir?',
-      message: 'Ein so grünes Build verdient eine Mini-Zeremonie.',
-      options: ['Sofort ausrollen, bevor jemand es bereut', 'Den fehlenden Regressionstest nachtragen', 'Den heroischen Terminal-Screenshot posten', 'Einen Siegesspaziergang machen', 'Den besiegten Bug benennen'],
+      "question": "Tests grün! Wie feiern wir im Kleinen?",
+      "message": "Eine kurze Ehrenrunde reicht.",
+      "options": [
+        "Fünf Minuten spazieren",
+        "Mein Lieblingsgetränk machen",
+        "Eine Zeile ins Erfolgsbuch schreiben",
+        "Den besiegten Bug zeichnen"
+      ]
     },
     {
-      question: 'Was ist die offizielle Ursache des heutigen Chaos?',
-      message: 'Der Incident Report ist vom Volkstrachten ersetzt.',
-      options: ['Quecksilber macht Review', 'Ein Spreadsheet ist bewusstseinserweckt', 'Jemand sagte „Quick Sync“', 'Die Büropflanze widerrief ihre Zustimmung', 'Der Dienstag überschritt seine Rechte'],
+      "question": "Welche alberne Erklärung bekommt das Chaos heute?",
+      "message": "Nur für den erfundenen Bericht.",
+      "options": [
+        "Die Tabs feierten heimlich",
+        "Der Dienstag kam ohne Anleitung",
+        "Eine Tabelle lernte Improtheater",
+        "Der Kaffee ging auf Nebenmission"
+      ]
     },
     {
-      question: 'Welchen dramatischen Titel verdient dieser Termin?',
-      message: 'Wenn wir sprinten, dürfen wir auch gleich ein Filmposter haben.',
-      options: ['Deadline: Impossible', 'The Fast and the Curious', 'Everything Everywhere All at Once-ish', 'Return of the Scope Creep'],
+      "question": "Welchen Filmtitel bekommt diese Deadline?",
+      "message": "Große Trailerstimme, kleines Budget.",
+      "options": [
+        "Die letzten fünf Minuten",
+        "Nur noch eine kleine Änderung",
+        "Die Rückkehr der verschwundenen Datei",
+        "Morgen war gestern"
+      ]
     },
     {
-      question: 'Welche harmlose Büro-Rebellion um 15 Uhr macht Spaß?',
-      message: 'Niedrige Einsätze, hohe Moral, plausible Ausrede.',
-      options: ['Jedes Meeting „Gathering“ nennen', 'Fachsprache durch Tierlaute ersetzen', 'Eine formelle Snack-Wahl abhalten', 'Bei Status-Call Sonnenbrille tragen'],
+      "question": "Welcher harmlose Quatsch passt in den Nachmittag?",
+      "message": "Ohne ahnungslose Kollegen einzubeziehen.",
+      "options": [
+        "Meinem Notizbuch einen Filmtitel geben",
+        "Ein Monster auf Schmierpapier zeichnen",
+        "Auf meiner Notiz einen Snackpreis erfinden",
+        "Den Wetterbericht für meinen Schreibtisch schreiben"
+      ]
     },
     {
-      question: 'Welche Einschränkung macht diese Idee interessanter?',
-      message: 'Kreativität mag einen Zaun, den man dekorieren, erklimmen oder ignorieren kann.',
-      options: ['In sechs Worten erklären', 'Ohne Bildschirm funktionieren lassen', 'Für eine sehr konkrete Person entwerfen', 'Nur mit vorhandenen Mitteln bauen', 'Den langweiligen Teil erfreulicher machen'],
+      "question": "Welche spielerische Regel bekommt diese Idee?",
+      "message": "Eine kleine Grenze öffnet neue Türen.",
+      "options": [
+        "In sechs Wörtern erklären",
+        "Nur zwei Farben verwenden",
+        "Eine reine Papierversion bauen",
+        "Alles im Taschenformat gestalten"
+      ]
     },
     {
-      question: 'Wie soll die Eröffnungsszene starten?',
-      message: 'Wähle einen Einstieg in die Geschichte und lasse die Neugier leuchten.',
-      options: ['Ein Objekt am falschen Ort', 'Ein schon gebrochenes Versprechen', 'Eine Feier, die niemand versteht', 'Nachricht von morgen', 'Schweigen, wo Lärm sein sollte'],
+      "question": "Mit welcher Szene beginnt diese kleine Geschichte?",
+      "message": "Ein Anfang, viele Möglichkeiten.",
+      "options": [
+        "Ein Schlüssel, der nirgends passt",
+        "Eine Notiz mit dem Datum von morgen",
+        "Eine Party mit leerer Gästeliste",
+        "Eine Türklingel unter Wasser"
+      ]
     },
     {
-      question: 'Wie soll sich unser nächster Prototyp anfühlen?',
-      message: 'Atmosphäre kann eine überraschend gute Produktanforderung sein.',
-      options: ['Ein cleveres Pocket-Tool', 'Ein ruhiger Raum mit einem guten Stuhl', 'Ein schelmischer Co-Pilot', 'Ein handgemachter Feldführer', 'Eine Arcade-Maschine für Erwachsene'],
-    },
-  ],
+      "question": "Welche Stimmung soll der nächste Prototyp haben?",
+      "message": "Ein Gefühl für ein kleines Experiment.",
+      "options": [
+        "Eine ruhige Leseecke",
+        "Eine helle kleine Spielhalle",
+        "Ein neugieriges Naturtagebuch",
+        "Ein gemütlicher Küchentisch"
+      ]
+    }
+  ]
 });

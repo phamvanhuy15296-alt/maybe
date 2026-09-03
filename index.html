@@ -4,20 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#dddddd" />
-  <meta name="maybe-build" content="2026-09-02-webmcp-hotfix1" />
+  <meta name="maybe-build" content="2026-09-03-playful" />
   <title>Maybe · Ask Codex, roll the dice</title>
   <meta name="description" content="Maybe turns a question into choices, then lets one to five physical dice decide." />
   <link rel="canonical" href="https://webmcp.qinqinghua.tech/maybe/" />
-  <link rel="stylesheet" href="./css/base.css" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="stylesheet" href="./css/base.css?v=20260903-playful" />
   <script>document.documentElement.className='js';</script>
-  <link rel="modulepreload" href="./js/webmcp.js?v=20260902-hotfix1" />
-  <link rel="modulepreload" href="./js/webmcp-bootstrap.js?v=20260902-hotfix1" />
-  <script type="module" data-cfasync="false" src="./js/webmcp-bootstrap.js?v=20260902-hotfix1"></script>
+  <link rel="modulepreload" href="./js/webmcp.js?v=20260903-playful" />
+  <link rel="modulepreload" href="./js/webmcp-bootstrap.js?v=20260903-playful" />
+  <script type="module" data-cfasync="false" src="./js/webmcp-bootstrap.js?v=20260903-playful"></script>
 </head>
 <body>
   <header class="product-brand" aria-label="Maybe">
     <h1>Maybe</h1>
-    <p data-i18n="tagline">Luck needs a plan, and Dice brings snacks.</p>
+    <p data-i18n="tagline">Can’t pick? Give it a roll.</p>
   </header>
 
   <div class="language-switcher">
@@ -48,7 +49,7 @@
             </div>
           </div>
           <div class="home-actions">
-            <button id="roll-btn" class="primary-action" type="button" data-i18n="home.throw">Throw the dice</button>
+            <button id="roll-btn" class="primary-action" type="button" data-i18n="home.throw">Roll the dice</button>
             <button id="ask-btn" class="primary-action" type="button" data-i18n="home.ask">Ask a question</button>
           </div>
           <a id="open-codex-btn" class="codex-open-link" href="https://chatgpt.com/codex/deeplink?url=https%3A%2F%2Fwebmcp.qinqinghua.tech%2Fmaybe%2F">
@@ -60,20 +61,20 @@
           <button id="library-btn" class="shelf-link" type="button">
             <span aria-hidden="true">✦</span>
             <span class="shelf-copy">
-              <strong data-i18n="shelf.open">Open the question shelf</strong>
+              <strong data-i18n="shelf.open">Pick a question</strong>
             </span>
           </button>
         </section>
 
         <ul class="help-list">
           <li data-i18n="home.doubleTap">Double tap to throw the dice</li>
-          <li data-i18n="home.zoomHint">Pan &amp; zoom if the dice rolled too far</li>
+          <li data-i18n="home.zoomHint">Dice out of view? Pan or zoom to find them.</li>
         </ul>
 
         <section class="game-step is-hidden" data-step="library">
           <div class="step-count" data-i18n="shelf.eyebrow">Question shelf · saved locally</div>
-          <h2 data-i18n="shelf.title">Good questions deserve better than a blank box.</h2>
-          <p class="step-note library-intro" data-i18n="shelf.intro">Pick a card, remix it, or ask Codex to stock this shelf with decisions that sound like you.</p>
+          <h2 data-i18n="shelf.title">A little question. A little surprise.</h2>
+          <p class="step-note library-intro" data-i18n="shelf.intro">Pick a card, tweak the choices, and see what rolls your way.</p>
 
           <div class="library-tools">
             <input id="library-search" type="search" maxlength="80" placeholder="Search questions or answers…" aria-label="Search question shelf" data-i18n-placeholder="shelf.searchPlaceholder" data-i18n-aria-label="shelf.searchAria" />
@@ -83,8 +84,8 @@
           <aside class="codex-shelf-callout">
             <span class="codex-spark" aria-hidden="true">✦</span>
             <div>
-              <strong data-i18n="shelf.personalizeTitle">Make this shelf unmistakably yours.</strong>
-              <p data-i18n="shelf.personalizeBody">Ask Codex for recurring questions and ready-to-roll answers—from standup rituals to midnight snacks.</p>
+              <strong data-i18n="shelf.personalizeTitle">Your questions. Your kind of fun.</strong>
+              <p data-i18n="shelf.personalizeBody">Let Codex make reusable cards for your everyday what-ifs.</p>
             </div>
             <button id="copy-library-prompt-btn" class="secondary-action compact-action" type="button" data-i18n="shelf.copyPrompt">Copy a Codex prompt</button>
           </aside>
@@ -93,7 +94,7 @@
             <span id="library-count"></span>
             <div class="library-file-actions">
             <button id="import-library-btn" class="quiet-link" type="button" data-i18n="shelf.import">Import JSON</button>
-            <button id="export-library-btn" class="quiet-link" type="button" data-i18n="shelf.export">Export Mine</button>
+            <button id="export-library-btn" class="quiet-link" type="button" data-i18n="shelf.export">Export mine</button>
               <input id="library-file-input" type="file" accept="application/json,.json" hidden />
             </div>
           </div>
@@ -106,8 +107,8 @@
 
         <section class="game-step is-hidden" data-step="question">
           <div class="step-count">1 / 3</div>
-          <h2 data-i18n="question.title">What do you want the dice to decide?</h2>
-          <textarea id="question-input" rows="3" maxlength="240" placeholder="e.g. What should I eat for lunch today?" data-i18n-placeholder="question.placeholder"></textarea>
+          <h2 data-i18n="question.title">What shall we leave to the dice?</h2>
+          <textarea id="question-input" rows="3" maxlength="240" placeholder="Dinner plans? Weekend adventures?" data-i18n-placeholder="question.placeholder"></textarea>
           <div class="step-actions">
             <button id="question-next-btn" class="primary-action" type="button" data-i18n="question.askCodex">Ask Codex</button>
             <button class="secondary-action" type="button" data-back="home" data-i18n="common.back">Back</button>
@@ -116,7 +117,7 @@
 
         <section class="game-step is-hidden" data-step="waiting">
           <div class="step-count">Codex</div>
-          <div class="thinking-line"><span class="thinking-dot"></span><strong data-i18n="waiting.thinking">Turning your question into choices…</strong></div>
+          <div class="thinking-line"><span class="thinking-dot"></span><strong data-i18n="waiting.thinking">A few possibilities coming up…</strong></div>
           <p id="pending-question" class="quoted-question"></p>
           <p id="waiting-status" class="step-note" role="status"></p>
           <div class="step-actions">
@@ -137,6 +138,8 @@
 
         <section class="game-step is-hidden" data-step="options">
           <div class="step-count" data-i18n="options.eyebrow">2 / 3 · Codex</div>
+          <h2 data-i18n="options.title">A few good possibilities</h2>
+          <p id="options-question" class="quoted-question" hidden></p>
           <p id="assistant-text" class="assistant-text" hidden></p>
           <div id="option-list" class="option-list"></div>
             <button id="add-option-btn" class="quiet-link add-option" type="button" data-i18n="options.add">+ Add my own choice</button>
@@ -160,12 +163,12 @@
 
         <section class="game-step is-hidden" data-step="ready">
           <div class="step-count">3 / 3</div>
-          <h2 data-i18n="ready.title">Ready to let the dice decide?</h2>
+          <h2 data-i18n="ready.title">What will the next roll bring?</h2>
           <p id="ready-question" class="quoted-question"></p>
           <div id="mapping-summary" class="mapping-summary"></div>
             <button id="customize-odds-btn" class="quiet-link" type="button" data-i18n="ready.customize">Customize which face means what</button>
           <div class="step-actions">
-            <button id="decision-roll-btn" class="primary-action" type="button" data-i18n="ready.throw">Throw the dice</button>
+            <button id="decision-roll-btn" class="primary-action" type="button" data-i18n="ready.throw">Roll the dice</button>
             <button class="secondary-action" type="button" data-save-current data-i18n="shelf.saveCurrent">Save to Question Shelf</button>
             <button class="quiet-link" type="button" data-back="options" data-i18n="ready.edit">Edit choices</button>
           </div>
@@ -184,15 +187,16 @@
 
         <section class="game-step is-hidden" data-step="rolling">
           <div class="step-count" data-i18n="rolling.eyebrow">Rolling…</div>
-          <h2 data-i18n="rolling.title">Let it land.</h2>
+          <h2 data-i18n="rolling.title">A little suspense…</h2>
         </section>
 
         <section class="game-step is-hidden" data-step="result">
-          <div class="step-count" data-i18n="result.eyebrow">The dice chose</div>
+          <div class="step-count" data-i18n="result.eyebrow">This time, it’s…</div>
+          <p id="result-question" class="quoted-question" hidden></p>
           <h2 id="result-title" class="result-title"></h2>
           <p id="result-detail" class="result-detail"></p>
           <div class="step-actions">
-            <button id="roll-again-btn" class="primary-action" type="button" data-i18n="result.again">Throw again</button>
+            <button id="roll-again-btn" class="primary-action" type="button" data-i18n="result.again">Roll again</button>
             <button id="new-question-btn" class="secondary-action" type="button" data-i18n="result.another">Ask another question</button>
             <button id="history-btn" class="quiet-link" type="button" data-i18n="result.history">History</button>
           </div>
@@ -227,7 +231,7 @@
       </div>
       <h3 class="question-card-title"></h3>
       <p class="question-card-preview"></p>
-      <button class="use-card primary-action compact-action" type="button" data-i18n="shelf.useCard">Use this card</button>
+      <button class="use-card primary-action compact-action" type="button" data-i18n="shelf.useCard">Try this one</button>
     </article>
   </template>
 
@@ -241,7 +245,7 @@
   }
   </script>
 
-  <script type="module" data-cfasync="false" src="./js/decision-ui.js?v=20260902-hotfix1"></script>
-  <script type="module" data-cfasync="false" src="./js/main.js?v=20260902-hotfix1"></script>
+  <script type="module" data-cfasync="false" src="./js/decision-ui.js?v=20260903-playful"></script>
+  <script type="module" data-cfasync="false" src="./js/main.js?v=20260903-playful"></script>
 </body>
 </html>

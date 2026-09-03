@@ -1,141 +1,146 @@
-# Maybe — A reusable decision shelf with Codex Site Tools
+# 🎲 Maybe
 
-**Version 5.2.0 WebMCP production hotfix (2026-09-02).**
+## Can’t pick? Give it a roll.
 
-Maybe is a small Three.js / cannon-es decision experience built for human-agent play. Ask a one-off question or pick a reusable card, let Codex create editable choices, map the six faces, and let 1–5 visible physical dice vote.
+**纠结一下？不如掷一下。**
 
-The active renderer remains isolated in `js/main.js`; the decision product layer in `js/decision-ui.js` never imports Three.js or cannon-es. The renderer is a focused derivative of `uuuulala/Threejs-rolling-dice-tutorial`, with its original geometry and pip construction retained and the multi-dice behavior added on top.
+Dinner has four finalists. Your weekend has no plot. That bug has several suspects.
+Maybe turns little everyday dilemmas into a game: ask a question, tweak a few choices, and let visible 3D dice make this round’s pick.
 
-## Dice count and physics
+No destiny. No “optimal life strategy.” Just a small surprise you can actually use.
 
-The home screen has a direct 1–5 dice selector. The selected count is saved in `localStorage` under `maybe_dice_count_v1` and applies to normal rolls, decision rolls, double-click rolls, and Site Tool rolls.
+[Play Maybe](https://webmcp.qinqinghua.tech/maybe/) · [Open in Codex](https://chatgpt.com/codex/deeplink?url=https%3A%2F%2Fwebmcp.qinqinghua.tech%2Fmaybe%2F) · [GitHub Pages mirror](https://phamvanhuy15296-alt.github.io/maybe/)
 
-Multi-dice safety details:
+## One-minute instruction manual
 
-- dice are added to and removed from both the Three.js scene and cannon-es world;
-- count-specific launch formations keep every body separated at spawn;
-- cannon-es body shapes handle die-to-die collisions;
-- invisible side boundaries keep larger throws in the useful camera area;
-- dice that settle on an edge receive a small physical nudge instead of hanging the result;
-- scores are collected by physical die index, so collision/settling order does not reorder the vote;
-- the score is emitted only after all selected dice settle.
+1. **Ask a question.** “What should I eat tonight?” is plenty. Your dinner does not need a thesis.
+2. **Pick the possibilities.** Write 2–6 choices yourself, or ask Codex to put them into the page. Everything stays editable.
+3. **Roll the dice.** Choose 1–5 dice, inspect the face mapping, and roll.
+4. **Meet this round’s pick.** See the original question, result, individual faces and votes. Roll again if you like.
+5. **Keep the good questions.** Save a decision to the Question Shelf and come back tomorrow.
 
-## UX
+The ordinary browser game works without an AI account or API key. Agent-assisted actions require a compatible Site Tools host.
 
-The first screen has two primary actions:
+## A shelf for your recurring “hmm…”
 
-1. **Throw the dice** — use the selected 1–5 dice as a normal roller.
-2. **Ask a question** — start the Codex-assisted decision game.
+18 built-in cards cover office, daily life, work, coding, humor and creativity. The interface and built-ins speak English, 中文, français, 日本語, 한국어, español and Deutsch. English is the default; Maybe stays Maybe.
 
-It also includes **Open in Codex** for visitors arriving from Chrome, Edge, or another browser. The button uses OpenAI's web handoff URL with the canonical deployment encoded as its destination: `https://chatgpt.com/codex/deeplink?url=https%3A%2F%2Fwebmcp.qinqinghua.tech%2Fmaybe%2F`. The destination includes the final trailing slash so the built-in browser reaches the tool-providing document without an intermediate redirect.
+Try dinner with noodles, curry, dumplings, or breakfast making a guest appearance at dinner. Give a spare 20 minutes to a walk, a joyfully wonky drawing, a book, or a carefully made drink. Investigate a bug with a minimal reproduction, recent changes, focused logs, or a rubber-duck explanation.
 
-The question path stays progressive:
+Want a shelf that sounds like you? Open Maybe in the built-in browser and ask:
 
-1. Enter one question.
-2. Wait for Codex Site Tools, or choose “I'll add my own”.
-3. Codex may ask one clarification.
-4. Codex writes a short answer plus 2–6 choices into the page.
-5. Edit, add, or remove choices.
-6. Review the balanced six-face mapping and customize it if needed.
-7. Throw the selected number of physical dice.
-8. Every die votes through the mapping; the highest vote count wins.
-9. If choices tie, the first physical die voting for a tied choice breaks the tie.
-10. The decision and complete face list are saved locally.
+> Create 8 reusable decision cards for my coding breaks, quick dinners and weekend plans. Mix practical choices with small surprises. Give each 2–6 distinct, affordable answers, and append them to my Maybe shelf without replacing existing cards.
 
-## Question shelf
+Codex can create, save, find and reopen cards. You can edit them, search the shelf, or import/export a JSON pack. Personal cards remain in their original language. Your routines, not a generic productivity template.
 
-The home screen also opens a reusable question shelf with 18 built-in cards across six themes:
+## WebMCP: the conversation becomes playable
 
-- office — rescue meetings, pick a note-taker, invent team rituals;
-- daily — choose dinner, reclaim 20 minutes, take a micro-adventure;
-- work — prioritize attention, unstick projects, subtract low-value work;
-- coding — investigate bugs, target refactors, celebrate green builds;
-- humor — explain chaos, title a deadline, stage harmless rebellions;
-- creative — choose constraints, opening scenes, and prototype moods.
+Maybe is not a chatbot pasted above a canvas. Its nine Site Tools call the same state and actions as the buttons you use. An agent can prepare choices, configure a roll, wait for the physical result, and save reusable cards directly in the live page.
 
-Every card includes a vivid setup and 2–6 editable answers. Personal cards are stored in `localStorage`, searchable alongside built-ins, removable from the page, and portable as a small JSON question pack.
+```text
+Your question → host discovers Maybe’s Site Tools → shared page state
+                                                     ↓
+                              editable choices → physical dice → result + history
+                                      ↓
+                              reusable question cards
+```
 
-Any generated or human-edited decision can be saved back to the personal shelf with **Save to Question Shelf**. Re-saving the same question updates its reusable card instead of creating duplicates.
+This is **page-local WebMCP**, not a remote MCP server. JavaScript registers tools through `document.modelContext.registerTool` in the top-level page. There is no Maybe-hosted LLM backend and no API key to paste into the website.
 
-The shelf is agent-native: ask Codex to create recurring questions that match your routines, and it can write the complete pack into the live page with `maybe_save_question_cards`. It can then find and load a saved card with `maybe_list_question_cards` and `maybe_open_question_card`. The human still reviews and edits the answers before deciding whether to roll.
+### Nine tools, no scavenger hunt
 
-For two choices the default face mapping is `1 / 3 / 5 → A` and `2 / 4 / 6 → B`. For three choices it is `1–2 / 3–4 / 5–6`; for 4–6 choices the faces are distributed round-robin.
+Exact schemas live in [js/webmcp.js](js/webmcp.js).
 
-## Codex / WebMCP interaction
+| Tool | Input / purpose | Result |
+| --- | --- | --- |
+| `maybe_respond_in_page` | Original question; decision/answer; message/choices; optional diceCount and autoRoll | Updated page or settled roll result |
+| `maybe_get_pending_question` | Read the question entered in the page | Question, language and clarification context |
+| `maybe_get_state` | Inspect the current game | Choices, mapping, dice count, score and UI step |
+| `maybe_configure_dice` | Count 1–5 and/or six zero-based choice indices | Updated dice settings |
+| `maybe_roll` | Roll an already prepared decision | Settled faces, votes and winning choice |
+| `maybe_get_history` | Optional limit, up to 30 per call | Previous questions and outcomes |
+| `maybe_list_question_cards` | Optional category, source and search query | Matching cards |
+| `maybe_save_question_cards` | 1–20 cards; append by default, replace only explicitly | Saved personal-card state |
+| `maybe_open_question_card` | Card ID | Card loaded into the editable flow |
 
-The page registers 9 focused Site Tools through `document.modelContext.registerTool`:
+A routine “choose dinner for me” request can prepare choices **and** roll in one invocation. Example arguments to `maybe_respond_in_page` (not an HTTP endpoint):
 
-- `maybe_respond_in_page` — the default fast route; it can answer, create choices, set the dice count, and optionally roll immediately
-- `maybe_get_pending_question`
-- `maybe_get_state`
-- `maybe_configure_dice`
-- `maybe_roll`
-- `maybe_get_history`
-- `maybe_list_question_cards`
-- `maybe_save_question_cards`
-- `maybe_open_question_card`
+```json
+{
+  "question": "What should I eat tonight?",
+  "kind": "decision",
+  "message": "Four dinner plans. One hungry audience.",
+  "options": ["A warm bowl of noodles", "Curry and rice", "Dumplings", "Breakfast for dinner"],
+  "diceCount": 1,
+  "autoRoll": true
+}
+```
 
-Typical built-in browser demo:
+The tool waits for the roll to settle; the agent does not invent the result. For review first, omit autoRoll, then call `maybe_roll` when asked. Self-contained answers can use `kind: "answer"` without manufacturing a choice game.
 
-1. Open Maybe in the Codex/ChatGPT built-in browser.
-2. Ask a lightweight everyday question in the Codex composer. Codex calls `maybe_respond_in_page` directly without researching routine prompts.
-3. It can show a concise answer, create 2–6 editable choices, or set `autoRoll` to return the settled result in the same call.
-4. Alternatively, enter a question in the page. Codex reads it with `maybe_get_pending_question`, then immediately answers through `maybe_respond_in_page`.
-5. `maybe_configure_dice` handles custom dice counts or odds; `maybe_roll` rolls an already prepared decision.
+### Under the table: implementation
 
-`maybe_respond_in_page` is intentionally concise and defaults routine questions to a direct call. Its metadata excludes safety-critical, high-stakes, current-fact, code-changing, and external-action requests from the shortcut.
+- [webmcp-bootstrap.js](js/webmcp-bootstrap.js) loads before the renderer. A deferred API lets registration start while the UI initializes. A visible-page watchdog checks every 2.5 seconds and recovers when the host replaces its model context.
+- [webmcp.js](js/webmcp.js) owns schemas, annotations and handlers. Per-context registration tracking avoids duplicates and retries missing tools after partial failures.
+- [decision-ui.js](js/decision-ui.js) owns the progressive flow and shared API. Human edits and agent calls converge here; it does not import Three.js or cannon-es.
+- [main.js](js/main.js) owns Three.js rendering and cannon-es physics. Dice collide, settle and report faces in physical die order.
+- [mapping.js](js/mapping.js) turns faces into votes. [question-library.js](js/question-library.js), [i18n.js](js/i18n.js) and [storage.js](js/storage.js) handle cards, language and persistence.
 
-The page now loads a tiny `js/webmcp-bootstrap.js` from `<head>` **before** the heavier decision UI and Three.js. It registers the nine tools against a deferred page API, keeps retrying every 2.5 seconds while the page is visible, and automatically re-registers if the host replaces `document.modelContext` during an in-app-browser route rebind. Runtime discovery is inspectable through `window.MaybeWebMCPStatus`, `window.MaybeWebMCPDiagnostics()`, `window.MaybeRetryWebMCP()`, and `?webmcp-debug=1`. Versioned module URLs prevent a stale cached registration script from masking a new deployment.
+Tool guidance encourages concrete, gently funny choices, preserves the original question, and avoids unnecessary research for self-contained prompts. It **cannot force** the host to call a tool, grant permissions, or bypass safety checks.
 
-The production response should send both `Origin-Agent-Cluster: ?1` and `Permissions-Policy: tools=(self)`. GitHub Pages can remain the source host, but the custom Cloudflare URL is the supported Site Tools entry point. During WebMCP debugging, do not cache the HTML or the registration modules, and disable Cloudflare Rocket Loader for `/maybe/*` (critical script tags also carry `data-cfasync="false"`). If Cloudflare's own zone-level WebMCP beta is enabled, turn it off while Maybe registers its own tools.
+### The small print on chance
 
-For the strongest automatic routing, `maybe_respond_in_page` explicitly identifies itself as the first action for ordinary non-coding questions and asks Codex to write into Maybe before answering in chat. Questions and choices should use the user's language, remain mutually exclusive, and carry a light humorous spark rather than sounding like a form.
+Two choices alternate across six faces; three choices get two faces each. Four to six choices use round-robin mapping. **Four and five choices are not equally likely** with six faces: inspect or edit the mapping. Each die votes once; ties go to the first physical die voting for a tied choice.
 
-Site Tools still depend on the host. Use the latest ChatGPT desktop app, enable **Browser → Permissions → Site tools**, keep Maybe as the active top-level page, and select GPT-5.6 Sol or Terra. GPT-5.6 Luna currently has WebMCP disabled. See the [official Site Tools documentation](https://developers.openai.com/codex/webmcp).
+This is a physics game, not certified randomness or an objectively best answer. Keep medical, legal, financial, safety-critical and urgent personal matters out of the game. Prompt guidance and a limited high-risk phrase filter are not comprehensive safety detection.
 
-Site Tools expose page actions to the agent. A normal webpage does not autonomously start a new Codex turn; the round trip remains agent-driven in the built-in browser. Clear tool names and narrow descriptions make the intended automatic route discoverable, but the Codex host still makes the final tool-selection decision.
+## Reviewer quick start
 
-For production failures, see [`WEBMCP_TROUBLESHOOTING.md`](./WEBMCP_TROUBLESHOOTING.md). It includes the Cloudflare header/cache configuration, the new runtime diagnostics, and the distinction between page registration failures and Codex desktop browser-route failures.
+1. Open the [canonical site](https://webmcp.qinqinghua.tech/maybe/) in a supported built-in browser.
+2. Inspect **Site tools → Available site tools** and confirm nine Maybe tools.
+3. Ask: “Give me four fun, practical ways to spend a 20-minute break. Put them in Maybe and roll once.” Check the invocation, visible choices and settled result.
+4. Ask to save the question, list saved cards and reopen it. Edit an option yourself: human and agent should see the same state.
+5. Switch languages, inspect history, and try the manual flow in an ordinary browser.
 
-## Persistence
+The [official OpenAI Site Tools documentation](https://learn.chatgpt.com/docs/webmcp) explains current app/model/workspace availability, browser permissions and security review. Tools belong to the open page; navigating away can make them unavailable. Use a supported model and enable Site tools in browser permissions.
 
-Question state, options, mapping, clarification context, and up to 100 history entries are stored in `localStorage` with a compact SameSite=Lax cookie mirror. Dice count uses its own small `localStorage` setting.
+If discovery fails, use `?webmcp-debug=1` and inspect `window.MaybeWebMCPStatus`, `await window.MaybeWebMCPDiagnostics()`, or `window.MaybeRetryWebMCP()`. See [troubleshooting](WEBMCP_TROUBLESHOOTING.md). **HTTP 200 and successful page registration do not prove the host exposed or invoked a tool.**
 
-## Run and test
+This manual supplies a reproducible demo, implementation and tests for reviewers. Competition-specific eligibility, submission assets and deadlines still need checking against the actual challenge rules; this repository does not claim official endorsement or completed submission.
 
-Serve the directory over HTTP:
+## Run a round locally
+
+No build step. Serve with Python 3:
 
 ```bash
 python3 -m http.server 8080
 ```
 
-Then open `http://localhost:8080`.
+Open `http://127.0.0.1:8080/`. This previews the manual game; it does not guarantee Site Tools discovery. For integration, use the canonical deployment or a server configured with the headers in the troubleshooting guide, not `file://`. Rendering loads external Three.js, cannon-es and module-shim dependencies, so internet access is needed.
 
-Run all deterministic tests:
+With Node.js and Python 3:
 
 ```bash
 npm test
 npm run test:browser
 ```
 
-The browser QA uses a deterministic public-engine mock so it can verify the complete shelf flow, all 1–5 score contracts, responsive layout, persistence, and all Site Tool callbacks without replacing the production renderer. Screenshots are written to a temporary directory and removed after the run.
+Browser tests need Playwright and Chrome/Edge; the runner also recognizes the bundled Codex runtime. If Playwright is missing: `npm install --no-save --package-lock=false playwright`.
 
-## Files
+Tests cover mapping, cards, seven-language key/option consistency, all nine tools, registration recovery, and home/three-step/result/history/shelf flows across narrow, landscape and desktop layouts. Browser regression tests use a **deterministic dice-engine and modelContext mock**: they verify app behavior, not native host discovery or physics randomness. Set `MAYBE_QA_KEEP_ARTIFACTS=1` to retain screenshots.
 
-- `index.html` — Maybe product shell and progressive steps
-- `css/base.css` — responsive visual system and dice-count control
-- `js/main.js` — Three.js/cannon-es renderer, dynamic dice lifecycle, collisions, and score events
-- `js/decision-ui.js` — progressive UI, multi-dice vote handling, and public page API
-- `js/mapping.js` — six-face mapping and 1–5 dice vote resolution
-- `js/storage.js` — localStorage and cookie persistence
-- `js/question-library.js` — built-in cards, validation, personal-card persistence, and JSON export
-- `js/webmcp.js` — Site Tool registration only
-- `js/webmcp-bootstrap.js` — earliest-possible registration, persistent context-rebind watchdog, and production diagnostics
-- `_headers` — Cloudflare Pages WebMCP-critical headers/cache policy
-- `cloudflare/worker.js` — optional Worker proxy for the canonical `/maybe/` deployment
-- `WEBMCP_TROUBLESHOOTING.md` — production diagnosis and Codex route recovery guide
-- `tests/` — structure, mapping, MCP, and browser-flow QA
+## Where it lives, and what it remembers
 
-## License
+[GitHub Pages Actions](.github/workflows/pages.yml) publishes the repository. [cloudflare/worker.js](cloudflare/worker.js) proxies it at the custom domain’s /maybe/ path, attaching deployment headers and bypassing caching for HTML and critical registration/UI modules. This is **GitHub Pages plus a Cloudflare Worker**, not a separate Cloudflare Pages app. Open in Codex uses the canonical HTTPS URL.
 
-The upstream Codrops project is MIT licensed. See `LICENSE`, `UPSTREAM.md`, and `THIRD_PARTY_NOTICES.md`.
+Choices and up to 100 history entries live in localStorage with a compact cookie mirror. Personal cards and dice preferences are local too. There is no cloud-sync account; clearing browser data can lose your shelf. Export a JSON pack if it matters. Different origins have separate storage, so the mirror and custom domain do not automatically share cards. Cookie mirrors may accompany same-origin requests; browser storage is not a secret vault. Agent interactions remain subject to the host’s privacy policies.
+
+## The next little surprise
+
+The vision: a tiny game worth reopening. Less time circling harmless decisions, more room to try something. WebMCP makes the page a shared, editable place to play—not a destination for text copied out of a chat.
+
+Future directions, **not shipped promises**: themed community card packs, clearer probability previews and more accessible ways to play. Keep the core small: useful choices, visible outcomes, personal favorites. No streak to protect. No leaderboard for eating lunch correctly.
+
+## Credits
+
+The renderer derives from [uuuulala/Threejs-rolling-dice-tutorial](https://github.com/uuuulala/Threejs-rolling-dice-tutorial). Maybe adds the decision flow, multi-dice voting, shelf, localization and WebMCP integration while retaining upstream geometry/pip construction. See [LICENSE](LICENSE), [UPSTREAM.md](UPSTREAM.md) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

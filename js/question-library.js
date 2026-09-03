@@ -1,7 +1,7 @@
 const CUSTOM_CARDS_KEY = 'maybe_question_cards_v1';
 const MAX_CUSTOM_CARDS = 30;
-import { getLocale, t } from './i18n.js';
-import { BUILT_IN_CARD_TRANSLATIONS } from './question-library-translations.js';
+import { getLocale, t } from './i18n.js?v=20260903-playful';
+import { BUILT_IN_CARD_TRANSLATIONS } from './question-library-translations.js?v=20260903-playful';
 
 export const QUESTION_CATEGORIES = Object.freeze([
   { id: 'all', label: 'All' },
@@ -16,113 +16,221 @@ export const QUESTION_CATEGORIES = Object.freeze([
 
 const BUILT_IN_CARDS = [
   {
-    id: 'office-meeting-escape', category: 'office',
-    question: 'How do we rescue a meeting that should have been an email?',
-    message: 'A tiny intervention for a calendar with main-character energy.',
-    options: ['Turn the agenda into an async doc', 'Keep a 15-minute decision huddle', 'Cancel it and send three crisp bullets'],
+    "id": "office-meeting-escape",
+    "category": "office",
+    "question": "How do we give this meeting a shorter ending?",
+    "message": "A little less talking, a little more afternoon.",
+    "options": [
+      "Replace it with a shared note",
+      "Keep a 15-minute decision chat",
+      "Cancel it and send three key points",
+      "Keep the slot for silent co-working"
+    ]
   },
   {
-    id: 'office-notes-hero', category: 'office',
-    question: 'Who gets the glorious quest of taking meeting notes?',
-    message: 'Every fellowship needs a keeper of the action items.',
-    options: ['The person who booked it', 'Rotate alphabetically', 'The last person to join', 'Let the dice appoint today’s scribe'],
+    "id": "office-notes-hero",
+    "category": "office",
+    "question": "How shall we pick this meeting’s note-taker?",
+    "message": "The notes need a name, not a quest.",
+    "options": [
+      "Ask for a volunteer",
+      "Use a rotating roster",
+      "Let the host take notes",
+      "Have everyone record their own actions"
+    ]
   },
   {
-    id: 'office-friday-ritual', category: 'office',
-    question: 'What should become our delightfully unofficial Friday ritual?',
-    message: 'Culture is just recurring behavior with better snacks.',
-    options: ['Five-minute demo parade', 'Tiny-win awards', 'No-agenda coffee roulette', 'A dramatic inbox zero countdown'],
+    "id": "office-friday-ritual",
+    "category": "office",
+    "question": "What tiny Friday tradition shall we try?",
+    "message": "No committee required.",
+    "options": [
+      "A five-minute demo round",
+      "One tiny-win story each",
+      "A shared snack break",
+      "A quiet hour with no meetings"
+    ]
   },
   {
-    id: 'daily-dinner-talks', category: 'daily',
-    question: 'Dinner has entered negotiations. What wins tonight?',
-    message: 'The kitchen cabinet has recused itself from the vote.',
-    options: ['Noodles with unreasonable confidence', 'Dumplings, because joy has folds', 'A colorful rice bowl', 'Breakfast for dinner'],
+    "id": "daily-dinner-talks",
+    "category": "daily",
+    "question": "What’s tonight’s plate of happiness?",
+    "message": "One meal, four delicious plot twists.",
+    "options": [
+      "A warm bowl of noodles",
+      "Curry with a little kick",
+      "Dumplings all lined up",
+      "Breakfast making a dinner cameo"
+    ]
   },
   {
-    id: 'daily-twenty-minutes', category: 'daily',
-    question: 'How should I rescue the next 20 minutes?',
-    message: 'Not enough time for a reinvention—plenty for a tiny plot twist.',
-    options: ['Walk without a destination', 'Clear one annoying surface', 'Read ten pages', 'Call someone I miss', 'Make a suspiciously fancy drink'],
+    "id": "daily-twenty-minutes",
+    "category": "daily",
+    "question": "Twenty free minutes: what shall we add to today?",
+    "message": "No life makeover needed.",
+    "options": [
+      "Take a short walk",
+      "Draw something joyfully wonky",
+      "Read a few pages for fun",
+      "Make a drink with extra care"
+    ]
   },
   {
-    id: 'daily-micro-adventure', category: 'daily',
-    question: 'What tiny adventure should I take today?',
-    message: 'No passport, quest log, or chosen-one prophecy required.',
-    options: ['Try the weirdest snack nearby', 'Take the long route home', 'Visit a place I always pass', 'Photograph five accidental faces'],
+    "id": "daily-micro-adventure",
+    "category": "daily",
+    "question": "Which tiny detour shall we try today?",
+    "message": "Adventure, pocket-sized.",
+    "options": [
+      "Walk down an unfamiliar nearby street",
+      "Try an inexpensive new snack",
+      "Sketch a familiar corner",
+      "Take five photos of accidental faces"
+    ]
   },
   {
-    id: 'work-fresh-brain', category: 'work',
-    question: 'Which task deserves my freshest brain today?',
-    message: 'Let the dice protect your best attention from inbox confetti.',
-    options: ['The task with the biggest consequence', 'The task I keep avoiding', 'The task that unblocks someone else', 'The smallest meaningful win'],
+    "id": "work-fresh-brain",
+    "category": "work",
+    "question": "What gets the first 25 minutes of focus?",
+    "message": "The inbox can wait its turn.",
+    "options": [
+      "Make progress on my main task",
+      "Reply to one blocking message",
+      "Tidy one small workspace area",
+      "Learn one useful shortcut"
+    ]
   },
   {
-    id: 'work-unstick-project', category: 'work',
-    question: 'How do we unstick this project before lunch?',
-    message: 'A practical nudge for a project currently impersonating furniture.',
-    options: ['Cut the scope in half', 'Name the one missing decision', 'Pair up for 25 minutes', 'Ship an ugly first slice', 'Ask the quietest expert'],
+    "id": "work-unstick-project",
+    "category": "work",
+    "question": "Where do we start unsticking this project?",
+    "message": "One small nudge, not a heroic rescue.",
+    "options": [
+      "Reduce the first milestone",
+      "Write down the unanswered question",
+      "Pair up for 25 minutes",
+      "Build a rough demo"
+    ]
   },
   {
-    id: 'work-say-no', category: 'work',
-    question: 'What should I politely stop doing this week?',
-    message: 'Strategic subtraction: productivity’s less photogenic sibling.',
-    options: ['A meeting with no decision', 'A report nobody reads', 'A favor that keeps expanding', 'A perfection pass nobody requested'],
+    "id": "work-say-no",
+    "category": "work",
+    "question": "What gets a little less space this week?",
+    "message": "Make room without making a speech.",
+    "options": [
+      "Shorten one recurring meeting",
+      "Drop one unused report",
+      "Limit inbox checking to set times",
+      "Stop polishing one finished draft"
+    ]
   },
   {
-    id: 'coding-bug-safari', category: 'coding',
-    question: 'How do we approach this suspiciously confident bug?',
-    message: 'The bug knows what it did. We just need evidence.',
-    options: ['Write the smallest failing test', 'Bisect the recent changes', 'Add observability around the boundary', 'Explain it to a rubber duck', 'Delete the cache—with dignity'],
+    "id": "coding-bug-safari",
+    "category": "coding",
+    "question": "Where do we start this bug investigation?",
+    "message": "No magnifying glass required.",
+    "options": [
+      "Make the smallest reproduction",
+      "Check recent changes",
+      "Add focused logs",
+      "Explain the case to a rubber duck"
+    ]
   },
   {
-    id: 'coding-refactor', category: 'coding',
-    question: 'Where should the next refactor spend its courage?',
-    message: 'Choose one knot to untie, not the entire ball of yarn.',
-    options: ['The module everyone fears', 'The duplicated business rule', 'The slowest developer loop', 'The weakest test seam'],
+    "id": "coding-refactor",
+    "category": "coding",
+    "question": "Which small refactor gets a turn?",
+    "message": "One knot, not the whole sweater.",
+    "options": [
+      "Extract a duplicated rule",
+      "Rename unclear variables",
+      "Split one oversized function",
+      "Add tests around one fragile module"
+    ]
   },
   {
-    id: 'coding-green-build', category: 'coding',
-    question: 'The tests are finally green. How should we celebrate?',
-    message: 'A build this green deserves a tiny release ceremony.',
-    options: ['Ship before they reconsider', 'Add the missing regression test', 'Post the heroic terminal screenshot', 'Take a victory walk', 'Name the bug we defeated'],
+    "id": "coding-green-build",
+    "category": "coding",
+    "question": "The tests are green. Pick a tiny celebration?",
+    "message": "Keep the victory lap short and sweet.",
+    "options": [
+      "Take a five-minute walk",
+      "Make a favorite drink",
+      "Write one line in the win log",
+      "Doodle the defeated bug"
+    ]
   },
   {
-    id: 'humor-chaos-cause', category: 'humor',
-    question: 'What is the official cause of today’s chaos?',
-    message: 'The incident report has been replaced by folklore.',
-    options: ['Mercury is doing code review', 'A spreadsheet became sentient', 'Someone said “quick sync”', 'The office plant revoked consent', 'Tuesday exceeded its permissions'],
+    "id": "humor-chaos-cause",
+    "category": "humor",
+    "question": "Which silly explanation gets today’s chaos?",
+    "message": "For the fictional report only.",
+    "options": [
+      "The tabs held a secret party",
+      "Tuesday arrived without instructions",
+      "A spreadsheet learned improv",
+      "The coffee went on a side quest"
+    ]
   },
   {
-    id: 'humor-deadline-title', category: 'humor',
-    question: 'What dramatic title does this deadline deserve?',
-    message: 'If we must sprint, we may as well get a movie poster.',
-    options: ['Deadline: Impossible', 'The Fast and the Curious', 'Everything Everywhere All at Once-ish', 'Return of the Scope Creep'],
+    "id": "humor-deadline-title",
+    "category": "humor",
+    "question": "What’s the movie title for this deadline?",
+    "message": "Big trailer voice, small actual budget.",
+    "options": [
+      "The Last Five Minutes",
+      "Just One More Tiny Change",
+      "Return of the Missing File",
+      "Tomorrow Was Yesterday"
+    ]
   },
   {
-    id: 'humor-rebellion', category: 'humor',
-    question: 'Which harmless office rebellion happens at 3 p.m.?',
-    message: 'Low stakes. High morale. Plausible deniability.',
-    options: ['Rename every meeting “The Gathering”', 'Replace jargon with animal noises', 'Hold a formal snack election', 'Wear sunglasses to the status call'],
+    "id": "humor-rebellion",
+    "category": "humor",
+    "question": "What harmless silliness fits this afternoon?",
+    "message": "No unsuspecting colleagues involved.",
+    "options": [
+      "Give my notebook a movie title",
+      "Draw a tiny monster on scrap paper",
+      "Invent a snack award on my own note",
+      "Write a weather report for my desk"
+    ]
   },
   {
-    id: 'creative-constraint', category: 'creative',
-    question: 'Which constraint would make this idea more interesting?',
-    message: 'Creativity likes a fence it can decorate, climb, or dramatically ignore.',
-    options: ['Explain it in six words', 'Make it work with no screen', 'Design it for one very specific person', 'Use only what we already have', 'Make the boring part delightful'],
+    "id": "creative-constraint",
+    "category": "creative",
+    "question": "What playful rule shall this idea follow?",
+    "message": "A small limit can open a new door.",
+    "options": [
+      "Explain it in six words",
+      "Use only two colors",
+      "Make a paper-only version",
+      "Design it to fit in a pocket"
+    ]
   },
   {
-    id: 'creative-opening-shot', category: 'creative',
-    question: 'What should the opening scene begin with?',
-    message: 'Pick a doorway into the story and let curiosity do the lighting.',
-    options: ['An object in the wrong place', 'A promise already broken', 'A celebration nobody understands', 'A message from tomorrow', 'Silence where noise should be'],
+    "id": "creative-opening-shot",
+    "category": "creative",
+    "question": "Which scene opens this little story?",
+    "message": "One opening, plenty of possibilities.",
+    "options": [
+      "A key that fits nothing",
+      "A note dated tomorrow",
+      "A party with an empty guest list",
+      "A doorbell ringing underwater"
+    ]
   },
   {
-    id: 'creative-prototype-feel', category: 'creative',
-    question: 'What should our next prototype feel like?',
-    message: 'A mood can be a surprisingly useful product requirement.',
-    options: ['A clever pocket tool', 'A calm room with one good chair', 'A mischievous co-pilot', 'A handmade field guide', 'An arcade machine for grown-ups'],
-  },
+    "id": "creative-prototype-feel",
+    "category": "creative",
+    "question": "What mood shall this prototype try?",
+    "message": "Pick a feeling for one quick experiment.",
+    "options": [
+      "A calm reading nook",
+      "A bright little arcade",
+      "A curious nature notebook",
+      "A cozy kitchen table"
+    ]
+  }
 ];
 
 function safeJson(raw, fallback) {

@@ -509,8 +509,10 @@ canvas {
 }
 
 #history-btn {
-  margin-top: 1.15em;
-  font-size: 14px;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: inherit;
 }
 
 .quiet-link {
@@ -854,7 +856,8 @@ textarea:focus,
 }
 
 .ui-controls.fit-compact .primary-action,
-.ui-controls.fit-compact .secondary-action {
+.ui-controls.fit-compact .secondary-action,
+.ui-controls.fit-compact #history-btn {
   padding: 8px 12px;
   font-size: 13px;
 }
@@ -939,7 +942,8 @@ textarea:focus,
 }
 
 .ui-controls.fit-dense .primary-action,
-.ui-controls.fit-dense .secondary-action {
+.ui-controls.fit-dense .secondary-action,
+.ui-controls.fit-dense #history-btn {
   padding: 6px 10px;
   font-size: 11px;
 }
@@ -985,7 +989,8 @@ textarea:focus,
 
 .ui-controls.fit-tight .primary-action,
 .ui-controls.fit-tight .secondary-action,
-.ui-controls.fit-tight .quiet-link {
+.ui-controls.fit-tight .quiet-link,
+.ui-controls.fit-tight #history-btn {
   font-size: 10px;
 }
 
